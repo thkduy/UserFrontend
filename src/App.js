@@ -7,11 +7,11 @@ import {
 
 import ContextProvider from './context/withContext.js';
 
-import Home from './Layout/Home.js';
+import Home from './layout/Home.js';
 
-import Login from './Layout/Login.js';
+import Login from './layout/Login.js';
 
-import Register from './Layout/Register.js';
+import Register from './layout/Register.js';
 
 import MenuAppBar from './components/AppBar.js';
 
