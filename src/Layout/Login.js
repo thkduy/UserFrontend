@@ -2,6 +2,7 @@ import {React, useState, useContext } from "react";
 import {Link, useHistory} from "react-router-dom";
 import authUserContext  from '../context/context';
 import jwt from "jsonwebtoken";
+import { GoogleLogin } from 'react-google-login';
 import {
     Box, 
     TextField, 
@@ -21,10 +22,10 @@ import {
     VisibilityOff
 } from "@material-ui/icons";
 import Alert from '@material-ui/lab/Alert';
-
 import LockIcon from '@material-ui/icons/Lock';
+import {login, loginGoogle} from '../api/index';
 
-const api_url = 'http://localhost:3001/api';
+const clientId = '221518239051-e1tr6ae3cgmjpdmflafidpv9mqrmqd1a.apps.googleusercontent.com';
 export default function Login(){
     const {
         isAuthenticated,
@@ -65,20 +66,7 @@ export default function Login(){
             setError('');
         }
 
-        const options = {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            redirect: 'follow',
-            referrer: 'no-referrer',
-            body: JSON.stringify({ email: email, password: values.password }),
-        }
-
-        const response = await fetch(api_url + `/user/login`, options);
+        const response = await login(email, values.password);
         const res = await response.json();
         if(response.ok){
             const user = jwt.decode(res.token);
@@ -94,6 +82,24 @@ export default function Login(){
             return;
         }
     };
+
+    const responseGoogle = async (resp) => {   
+        const response = await loginGoogle(resp.accessToken, resp.profileObj.email, resp.profileObj.name);
+        const res = await response.json();
+        if(response.ok){
+            const user = jwt.decode(res.token);
+            checkAuthenticated(!isAuthenticated);
+            signIn(user);
+            setNewToken(res.token);
+            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("isAuthenticated", JSON.stringify(true));
+            localStorage.setItem("token", JSON.stringify(res.token));
+            history.push('/');
+        }else if (response.status === 400) {
+            setError(res.message);
+            return;
+        }
+    }
 
     return(
         <Grid
@@ -192,7 +198,6 @@ export default function Login(){
                         spacing={1}
                         alignItems="flex-end"
                         justify="center"
-                        style={{ marginBottom: 20 }}
                     >
                         <Grid item>
                             <Typography variant="subtitle1">
@@ -201,6 +206,27 @@ export default function Login(){
                                     Register now!
                                 </Link>
                             </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid
+                        container
+                        spacing={1}
+                        alignItems="center"
+                        justify="center"
+                        style={{ marginBottom: 20 }}
+                    >
+                        <Grid item>
+                            <Typography variant="h5">
+                                Or
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                            <GoogleLogin
+                                clientId={clientId}
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy={'single_host_origin'}
+                            />
                         </Grid>
                     </Grid>
                 </Box>

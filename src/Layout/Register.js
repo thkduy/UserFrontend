@@ -21,8 +21,7 @@ import Alert from '@material-ui/lab/Alert';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 import FaceIcon from '@material-ui/icons/Face';
-
-const api_url = 'http://localhost:3001/api';
+import { register } from "../api/index";
 
 export default function Register(){
     const history = useHistory();
@@ -54,24 +53,7 @@ export default function Register(){
             return;
         }
 
-        const options = {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            redirect: 'follow',
-            referrer: 'no-referrer',
-            body: JSON.stringify({ 
-                password: values.password,
-                name: values.name,
-                email: values.email,
-            }),
-        }
-
-        const response = await fetch(api_url + `/user/register`, options);
+        const response = await register(values.name, values.email, values.password);
         const res = await response.json();
         if(response.ok){
             history.push('/login');
