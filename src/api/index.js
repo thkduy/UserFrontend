@@ -1,4 +1,7 @@
-const api_url = 'http://localhost:3001/api';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const api_url = process.env.API_URL;
 
 export async function login(email, password) {
     const options = {
