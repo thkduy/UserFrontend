@@ -1,6 +1,6 @@
 import {React, useState, useContext} from "react";
 import {Link, useHistory} from "react-router-dom";
-import authUserContext from '../context/context';
+import authUserContext from '../context/AuthUserContext';
 import jwt from "jsonwebtoken";
 import {GoogleLogin} from 'react-google-login';
 import {

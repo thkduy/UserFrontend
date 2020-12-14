@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AuthUserContext from "./context";
+import AuthUserContext from "./AuthUserContext";
 const UserContext = (props) => {
   let localUser = JSON.parse(localStorage.getItem("user"));
   if (localUser === null) localUser = [];
@@ -16,7 +16,6 @@ const UserContext = (props) => {
   const [isAuthenticated, setIsAuthenticated] = useState(localIsAuthenticated);
 
   const [token, setToken] = useState(localToken);
-
  
   const setNewToken = (token) => {
     setToken(token);
