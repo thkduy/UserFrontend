@@ -58,13 +58,13 @@ export default function Login() {
 
   const handleLogin = async () => {
 
-    // var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    // if(!email.match(pattern)){
-    //     setError('Invalid email');
-    //     return;
-    // }else{
-    //     setError('');
-    // }
+    var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    if(!email.match(pattern)){
+        setError('Invalid email');
+        return;
+    }else{
+        setError('');
+    }
 
     const response = await login(email, values.password);
     const res = await response.json();
@@ -84,21 +84,21 @@ export default function Login() {
   };
 
   const responseGoogle = async (resp) => {
-    //     const response = await loginGoogle(resp.accessToken, resp.profileObj.email, resp.profileObj.name);
-    //     const res = await response.json();
-    //     if(response.ok){
-    //         const user = jwt.decode(res.token);
-    //         checkAuthenticated(!isAuthenticated);
-    //         signIn(user);
-    //         setNewToken(res.token);
-    //         localStorage.setItem("user", JSON.stringify(user));
-    //         localStorage.setItem("isAuthenticated", JSON.stringify(true));
-    //         localStorage.setItem("token", JSON.stringify(res.token));
-    //         history.push('/');
-    //     }else if (response.status === 400) {
-    //         setError(res.message);
-    //         return;
-    //     }
+    const response = await loginGoogle(resp.accessToken, resp.profileObj.email, resp.profileObj.name);
+    const res = await response.json();
+    if(response.ok){
+        const user = jwt.decode(res.token);
+        checkAuthenticated(!isAuthenticated);
+        signIn(user);
+        setNewToken(res.token);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("isAuthenticated", JSON.stringify(true));
+        localStorage.setItem("token", JSON.stringify(res.token));
+        history.push('/');
+    }else if (response.status === 400) {
+        setError(res.message);
+        return;
+    }
   }
 
   return (
@@ -220,14 +220,14 @@ export default function Login() {
                   Or
                 </Typography>
               </Grid>
-              {/*<Grid item>*/}
-              {/*    <GoogleLogin*/}
-              {/*        clientId={clientId}*/}
-              {/*        onSuccess={responseGoogle}*/}
-              {/*        onFailure={responseGoogle}*/}
-              {/*        cookiePolicy={'single_host_origin'}*/}
-              {/*    />*/}
-              {/*</Grid>*/}
+              <Grid item>
+              <GoogleLogin
+              clientId={clientId}
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={'single_host_origin'}
+              />
+              </Grid>
             </Grid>
           </Box>
         </Paper>
