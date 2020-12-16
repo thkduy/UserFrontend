@@ -10,6 +10,7 @@ import MessageTextField from "./MessageTextField";
 import SenderContainer from "./SenderContainer";
 import MessagesContainer from "./MessagesContainer";
 import MessageComponent from "./MessageComponent";
+import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,21 +29,13 @@ export default function MessageBoard(){
 
   const socketContext = useContext(SocketContext);
   const socket = socketContext.socket;
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const {roomId} = useParams();
 
   const [listMessage, setListMessage] = useState([]);
-  useEffect( () => {
-    const mockListMessage = [
-      {
-        content: "Hello I'm Hao",
-        name: "Hao"
-      },
-      {
-        content: "Hello I'm Hao. Hello I'm Hao. Hello I'm Hao",
-        name: "Hao"
-      },
-    ];
+  useEffect(() => {
 
-    setListMessage(mockListMessage);
   }, []);
 
 
@@ -52,22 +45,29 @@ export default function MessageBoard(){
     event.preventDefault();
     if (curMessage !== ""){
       //handle here
+      socket.emit("userSendMessage", {roomId: roomId, message: {name: user.name, content: curMessage}});
       setCurMessage("");
     }
   }
+
+  useEffect(()=> {
+    socket.on("serverBroadcastMessages", (newListMessages) => {
+      setListMessage(newListMessages);
+    });
+  }, []);
+
   return (
   <Paper className={classes.root} elevation={2} >
     <MessagesContainer>
       {
         listMessage.map(message => (<MessageComponent {...message}/>))
       }
-      <MessageComponent content="Hello i'm Hao" name="Hao" />
     </MessagesContainer>
     <SenderContainer>
       <form id="msgForm" onSubmit={handleBtnSendClick} style={{flexGrow: "1", marginRight: '5px'}}>
         <MessageTextField
           // className={classes.margin}
-          placeholder={"Message... "}
+          placeholder={"Message..."}
           fullWidth
           variant="outlined"
           defaultValue=""

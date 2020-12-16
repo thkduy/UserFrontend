@@ -4,6 +4,7 @@ import RowGameBoard from "./RowGameBoard";
 import Paper from "@material-ui/core/Paper";
 import SocketContext from "../../context/SocketContext";
 import GameBoardContext from "../../context/GameBoardContext";
+import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles(theme => createStyles({
   paper: {
@@ -40,6 +41,8 @@ export default function GameBoard(){
   const socketContext = useContext(SocketContext);
   const socket = socketContext.socket;
 
+  const {roomId} = useParams();
+
   const [allValues, setAllValues] = useState([]);
   useEffect(() => {
 
@@ -57,15 +60,24 @@ export default function GameBoard(){
   const handleCellClicked = (row, column) => {
     const _allValues = allValues.slice();
     _allValues[row][column] = (row + column) % 2 ? -1 : 1;
+    const newValue = _allValues[row][column];
+    socket.emit("playerSendPace", {roomId: roomId, pace: {row: row, column: column, value: newValue}});
+
     setAllValues(_allValues);
   }
+
+  useEffect(() => {
+    socket.on("serverSendBoardValues", ({boardValues}) => {
+      setAllValues(boardValues);
+    });
+  }, [])
 
   return (
     <GameBoardContext.Provider value={{handleCellClicked: handleCellClicked}}>
       <Paper className={classes.paper} elevation={2} >
         <Box component="div" className={classes.root}>
           { allValues.map((rowValues, index) =>
-            <RowGameBoard listValues={rowValues} row = {index} />)
+            <RowGameBoard listValues={rowValues} row={index} />)
           }
         </Box>
       </Paper>

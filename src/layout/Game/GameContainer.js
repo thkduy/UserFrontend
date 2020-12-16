@@ -1,6 +1,6 @@
 import {io} from "socket.io-client";
 import {React, useContext, useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -31,12 +31,12 @@ export default function GameContainer(){
   
   useEffect(() => {
     socket.on('roomPlayer', (data) =>{
-        const newPlayerArray = [];
-        data.players.map((player) => {
-            newPlayerArray.push(player.user);
-            return 0;
-        });
-        setPlayers(newPlayerArray);
+      const newPlayerArray = [];
+      data.players.map((player) => {
+          newPlayerArray.push(player.user);
+          return 0;
+      });
+      setPlayers(newPlayerArray);
     });
 
     socket.on('roomViewer', (data) =>{
@@ -50,27 +50,21 @@ export default function GameContainer(){
   });
   },[socket]);
 
-  // useEffect(() => {
-  //   socket.on('join-game', () => {
-  //     socket.emit('requireIdUser', localStorage.getItem("user"));
-  //   });
-
-  //   socket.on('sendListOnline', (receivedListOnline) => {
-  //     let arrListOnline = Object.keys(receivedListOnline).map((key) => receivedListOnline[key]);
-  //     console.log(arrListOnline);
-  //     setListOnlineUser(arrListOnline);
-  //   });
-  // });
-
-
-
   return (
-      <>
+    <>
       <Button variant="contained" color="secondary" onClick={handleLeave}>
         Leave game
       </Button>
       {players.map((player, index) => <Typography key={index}>Player {index} : {player.name}</Typography>)}
       {viewers.map((viewer, index) => <Typography key={index}>Viewer {index} : {viewer.name}</Typography>)}
+      <Grid container spacing={2}>
+        <Grid item xs={7} style={{display: 'flex', justifyContent: 'flex-end'}}>
+          <GameBoard />
+        </Grid>
+        <Grid item xs ={5}>
+          <MessageBoard />
+        </Grid>
+      </Grid>
     </>
   );
 }
