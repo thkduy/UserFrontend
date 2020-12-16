@@ -47,7 +47,7 @@ export default function Register() {
 
   const handleSignup = async () => {
 
-    var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (!values.email.match(pattern)) {
       setError('Invalid email');
       return;
