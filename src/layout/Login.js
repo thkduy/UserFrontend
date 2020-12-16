@@ -83,23 +83,23 @@ export default function Login() {
     }
   };
 
-  const responseGoogle = async (resp) => {
-    const response = await loginGoogle(resp.accessToken, resp.profileObj.email, resp.profileObj.name);
-    const res = await response.json();
-    if(response.ok){
-        const user = jwt.decode(res.token);
-        checkAuthenticated(!isAuthenticated);
-        signIn(user);
-        setNewToken(res.token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("isAuthenticated", JSON.stringify(true));
-        localStorage.setItem("token", JSON.stringify(res.token));
-        history.push('/');
-    }else if (response.status === 400) {
-        setError(res.message);
-        return;
-    }
-  }
+  // const responseGoogle = async (resp) => {
+  //   const response = await loginGoogle(resp.accessToken, resp.profileObj.email, resp.profileObj.name);
+  //   const res = await response.json();
+  //   if(response.ok){
+  //       const user = jwt.decode(res.token);
+  //       checkAuthenticated(!isAuthenticated);
+  //       signIn(user);
+  //       setNewToken(res.token);
+  //       localStorage.setItem("user", JSON.stringify(user));
+  //       localStorage.setItem("isAuthenticated", JSON.stringify(true));
+  //       localStorage.setItem("token", JSON.stringify(res.token));
+  //       history.push('/');
+  //   }else if (response.status === 400) {
+  //       setError(res.message);
+  //       return;
+  //   }
+  // }
 
   return (
     <Grid
@@ -208,7 +208,7 @@ export default function Login() {
                 </Typography>
               </Grid>
             </Grid>
-            <Grid
+            {/* <Grid
               container
               spacing={1}
               alignItems="center"
@@ -228,7 +228,7 @@ export default function Login() {
               cookiePolicy={'single_host_origin'}
               />
               </Grid>
-            </Grid>
+            </Grid> */}
           </Box>
         </Paper>
       </Grid>
