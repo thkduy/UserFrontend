@@ -3,7 +3,7 @@ import {React, useContext, useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import {Typography, Button, Box} from "@material-ui/core";
+import {Typography, Button, Box, Divider} from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import SocketContext from "../../context/SocketContext";
 import GameBoard from "../GameBoard/GameBoard";
