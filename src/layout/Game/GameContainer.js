@@ -46,6 +46,7 @@ export default function GameContainer(){
 
   return (
     <>
+    <Container>
       <Grid
           container
           direction="row"
@@ -64,6 +65,7 @@ export default function GameContainer(){
             </Button>
         </Grid>
         <Divider />
+        </Container>
       <Grid container spacing={2}>
         <Grid item xs={7} style={{display: 'flex', justifyContent: 'flex-end'}}>
           <GameBoard />
