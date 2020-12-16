@@ -51,10 +51,6 @@ export default function GameBoard(){
       }
     }
 
-    //need to delete
-    defaultAllValues[8][7] = -1;
-    defaultAllValues[2][4] = 1;
-
     setAllValues(defaultAllValues);
   }, []);
 
@@ -68,8 +64,8 @@ export default function GameBoard(){
     <GameBoardContext.Provider value={{handleCellClicked: handleCellClicked}}>
       <Paper className={classes.paper} elevation={2} >
         <Box component="div" className={classes.root}>
-          { allValues.map((row, index) =>
-            <RowGameBoard listValues={row} row = {index} />)
+          { allValues.map((rowValues, index) =>
+            <RowGameBoard listValues={rowValues} row = {index} />)
           }
         </Box>
       </Paper>

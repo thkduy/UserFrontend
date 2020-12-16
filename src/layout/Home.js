@@ -6,12 +6,7 @@ import {
 } from "@material-ui/core";
 
 import ListUsers from "./Home/ListUsers";
-import MessageBoard from "./MessageBoard/MessageBoard";
-import MessageComponent from "./MessageBoard/MessageComponent";
-import GameBoard from "./GameBoard/GameBoard";
-import GameContainer from "./GameContainer";
-dotenv.config();
-console.log(process.env.SERVER_HOST);
+
 import authUserContext  from '../context/AuthUserContext';
 import SocketContext from "../context/SocketContext";
 
@@ -51,7 +46,7 @@ export default function Home() {
 
   return (
     <>
-      <ListUsers />
+      {/*<ListUsers />*/}
       <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
         Create new game
       </Button>

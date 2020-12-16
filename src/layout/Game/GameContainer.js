@@ -12,8 +12,10 @@ import TableBody from "@material-ui/core/TableBody";
 import {Typography, Button} from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import SocketContext from "../../context/SocketContext";
+import GameBoard from "../GameBoard/GameBoard";
+import MessageBoard from "../MessageBoard/MessageBoard";
 
-export default function GameBoard(){
+export default function GameContainer(){
   const history = useHistory();
   const socketContext = useContext(SocketContext);
   const socket = socketContext.socket;
@@ -29,13 +31,13 @@ export default function GameBoard(){
   useEffect(() => {
     socket.open();
     socket.on('roomPlayer', (data) =>{
-        const newPlayerArray = [];
-        data.players.map((player) => {
-            newPlayerArray.push(player.user);
-            return 0;
-        });
-        console.log(newPlayerArray);
-        setPlayers(newPlayerArray);
+      const newPlayerArray = [];
+      data.players.map((player) => {
+          newPlayerArray.push(player.user);
+          return 0;
+      });
+      console.log(newPlayerArray);
+      setPlayers(newPlayerArray);
     });
 
     socket.on('roomViewer', (data) =>{
@@ -46,7 +48,8 @@ export default function GameBoard(){
       })
       console.log(newViewerArray);
       setViewers(newViewerArray);
-  });
+    });
+
     return () => {
       socket.close();
     }
@@ -64,8 +67,6 @@ export default function GameBoard(){
   //   });
   // });
 
-
-
   return (
       <>
       <Button variant="contained" color="secondary" onClick={handleLeave}>
@@ -73,6 +74,14 @@ export default function GameBoard(){
       </Button>
       {players.map((player, index) => <Typography key={index}>Player {index} : {player.name}</Typography>)}
       {viewers.map((viewer, index) => <Typography key={index}>Viewer {index} : {viewer.name}</Typography>)}
+      <Grid container spacing={2}>
+        <Grid item xs={7} style={{display: 'flex', justifyContent: 'flex-end'}}>
+          <GameBoard />
+        </Grid>
+        <Grid item xs ={5}>
+          <MessageBoard />
+        </Grid>
+      </Grid>
     </>
   );
 }
