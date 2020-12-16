@@ -4,9 +4,8 @@ import {io} from "socket.io-client";
 
 const SocketProvider = (props) => {
 
-  let socket = io('http://localhost:3001/', {
-    withCredentials: true,
-  });
+  let socket = io('https://dack-caro-online-api.herokuapp.com/');
+  
 
   // useEffect(() => {
   //   const initSocket = io('http://localhost:3001/', {
