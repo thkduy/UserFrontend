@@ -58,7 +58,7 @@ export default function Login() {
 
   const handleLogin = async () => {
 
-    var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+    const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if(!email.match(pattern)){
         setError('Invalid email');
         return;

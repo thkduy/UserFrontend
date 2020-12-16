@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 
 import ListUsers from "./Home/ListUsers";
+
 import authUserContext  from '../context/AuthUserContext';
 import SocketContext from "../context/SocketContext";
 
@@ -31,7 +32,7 @@ export default function Home() {
     socket.on('get-new-game-id', (data) =>{
       // console.log(data);
       history.push(`/game/${data.roomId}`);
-    });    
+    });
   }
 
   const handleJoinGame = () => {
@@ -43,36 +44,39 @@ export default function Home() {
         history.push(`/game/${roomId}`);
       }
     });
-    
-  } 
+
+  }
 
   return (
     <>
-    {data.isAuthenticated ? 
-    <>
-      <Grid
-        container
-        direction="row"
-        justify="space-evenly"
-        alignItems="baseline"
-      >
-        <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
-        Create new game
-      </Button>
-      <Box display="flex" alignItems="center">
-      <TextField label="Enter game code" value={roomId} variant="outlined" onChange={handleChange}/>
-      <Button variant="contained" color="secondary" onClick={handleJoinGame} style={{marginLeft:10}}>
-        Join game
-      </Button>
-      </Box>
-      </Grid>
+      {/*<ListUsers />*/}
+        { data.isAuthenticated ?
+          <>
+            <Grid
+              container
+              direction="row"
+              justify="space-evenly"
+              alignItems="baseline"
+            >
+              <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
+                Create new game
+              </Button>
+              <Box display="flex" alignItems="center">
+                <TextField label="Enter game code" value={roomId} variant="outlined" onChange={handleChange}/>
+                <Button variant="contained" color="secondary" onClick={handleJoinGame} style={{marginLeft:10}}>
+                  Join game
+                </Button>
+              </Box>
+            </Grid>
 
-      <ListUsers />
+            {/*<ListUsers />*/}
+          </>
+          :
+          <Typography variant="h1">
+            Welcome to Caro Online !
+          </Typography>
+        }
       </>
-    : <Typography variant="h1">
-        Welcome to Caro Online !
-    </Typography>}
-    </>
-  );
+  )
 }
 
