@@ -20,6 +20,7 @@ export default function GameContainer(){
   const socketContext = useContext(SocketContext);
   const socket = socketContext.socket;
 
+  const {roomId} = useParams();
   const [players, setPlayers] = useState([]);
   const [viewers, setViewers] = useState([]);
 
@@ -29,15 +30,13 @@ export default function GameContainer(){
   }
   
   useEffect(() => {
-    socket.open();
     socket.on('roomPlayer', (data) =>{
-      const newPlayerArray = [];
-      data.players.map((player) => {
-          newPlayerArray.push(player.user);
-          return 0;
-      });
-      console.log(newPlayerArray);
-      setPlayers(newPlayerArray);
+        const newPlayerArray = [];
+        data.players.map((player) => {
+            newPlayerArray.push(player.user);
+            return 0;
+        });
+        setPlayers(newPlayerArray);
     });
 
     socket.on('roomViewer', (data) =>{
@@ -48,11 +47,7 @@ export default function GameContainer(){
       })
       console.log(newViewerArray);
       setViewers(newViewerArray);
-    });
-
-    return () => {
-      socket.close();
-    }
+  });
   },[socket]);
 
   // useEffect(() => {
@@ -67,6 +62,8 @@ export default function GameContainer(){
   //   });
   // });
 
+
+
   return (
       <>
       <Button variant="contained" color="secondary" onClick={handleLeave}>
@@ -74,14 +71,6 @@ export default function GameContainer(){
       </Button>
       {players.map((player, index) => <Typography key={index}>Player {index} : {player.name}</Typography>)}
       {viewers.map((viewer, index) => <Typography key={index}>Viewer {index} : {viewer.name}</Typography>)}
-      <Grid container spacing={2}>
-        <Grid item xs={7} style={{display: 'flex', justifyContent: 'flex-end'}}>
-          <GameBoard />
-        </Grid>
-        <Grid item xs ={5}>
-          <MessageBoard />
-        </Grid>
-      </Grid>
     </>
   );
 }

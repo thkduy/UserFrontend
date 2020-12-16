@@ -2,7 +2,10 @@ import {React, useEffect, useState, useContext} from "react";
 import {useHistory} from "react-router-dom";
 import {
   Button,
-  TextField
+  TextField,
+  Box,
+  Grid,
+  Typography
 } from "@material-ui/core";
 
 import ListUsers from "./Home/ListUsers";
@@ -48,12 +51,30 @@ export default function Home() {
     <>
       {/*<ListUsers />*/}
       <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
+    {data.isAuthenticated ?
+    <>
+      <Grid
+        container
+        direction="row"
+        justify="space-evenly"
+        alignItems="baseline"
+      >
+        <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
         Create new game
       </Button>
+      <Box display="flex" alignItems="center">
       <TextField label="Enter game code" value={roomId} variant="outlined" onChange={handleChange}/>
-      <Button variant="contained" color="secondary" onClick={handleJoinGame}>
+      <Button variant="contained" color="secondary" onClick={handleJoinGame} style={{marginLeft:10}}>
         Join game
       </Button>
+      </Box>
+      </Grid>
+
+      <ListUsers />
+      </>
+    : <Typography variant="h1">
+        Welcome to Caro Online !
+    </Typography>}
     </>
   );
 }
