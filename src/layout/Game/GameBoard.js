@@ -1,6 +1,7 @@
 import {React, useContext, useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {Typography, Button, Box, Grid, Container, Divider} from "@material-ui/core";
+import { borders } from '@material-ui/system';
 import SocketContext from "../../context/SocketContext";
 
 export default function GameBoard(){
@@ -8,6 +9,7 @@ export default function GameBoard(){
   const socketContext = useContext(SocketContext);
   const socket = socketContext.socket;
 
+  const {roomId} = useParams();
   const [players, setPlayers] = useState([]);
   const [viewers, setViewers] = useState([]);
 
@@ -42,8 +44,11 @@ export default function GameBoard(){
           container
           direction="row"
           justify="space-between"
-          alignItems="baseline"
+          alignItems="center"
         >
+        <Box border={1} borderColor="secondary.main" p={1}>
+          Room id: {roomId}
+        </Box>
           <Box>
             {players.map((player, index) => <Typography key={index}>Player {index} : {player.name}</Typography>)}
             {viewers.map((viewer, index) => <Typography key={index}>Viewer {index} : {viewer.name}</Typography>)}

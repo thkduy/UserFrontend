@@ -30,7 +30,7 @@ export default function App() {
               <Route exact path="/" component={Home}/>
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
-              <Route path="/game/:id" component={GameBoard}/>
+              <Route path="/game/:roomId" component={GameBoard}/>
             </Switch>
           </div>
         </SocketContextProvider>
