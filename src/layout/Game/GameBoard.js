@@ -27,7 +27,6 @@ export default function GameBoard(){
   }
   
   useEffect(() => {
-    socket.open();
     socket.on('roomPlayer', (data) =>{
         const newPlayerArray = [];
         data.players.map((player) => {
@@ -47,9 +46,6 @@ export default function GameBoard(){
       console.log(newViewerArray);
       setViewers(newViewerArray);
   });
-    return () => {
-      socket.close();
-    }
   },[socket]);
 
   // useEffect(() => {
