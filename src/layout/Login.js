@@ -101,6 +101,10 @@ export default function Login() {
     }
   }
 
+  const responseGoogleFail = (resp) => {
+    console.log(resp);
+  }
+
   return (
     <Grid
       container
@@ -224,8 +228,7 @@ export default function Login() {
               <GoogleLogin
               clientId={clientId}
               onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={'single_host_origin'}
+              onFailure={responseGoogleFail}
               />
               </Grid>
             </Grid>

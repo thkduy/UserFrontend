@@ -13,8 +13,11 @@ import Login from './layout/Login.js';
 
 import Register from './layout/Register.js';
 
+import GameBoard from "./layout/Game/GameBoard.js";
+
 import MenuAppBar from './components/AppBar.js';
 import SocketContextProvider from "./context/SocketContextProvider";
+
 
 export default function App() {
   return (
@@ -27,6 +30,7 @@ export default function App() {
               <Route exact path="/" component={Home}/>
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
+              <Route path="/game/:id" component={GameBoard}/>
             </Switch>
           </div>
         </SocketContextProvider>

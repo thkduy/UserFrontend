@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 const api_url = `http://localhost:3001/api`;
 
 export async function login(email, password) {
