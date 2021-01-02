@@ -13,6 +13,8 @@ import Login from './layout/Login.js';
 
 import Register from './layout/Register.js';
 
+import ActivateAccount from './layout/ActivateAccount';
+
 import MenuAppBar from './components/AppBar.js';
 import SocketContextProvider from "./context/SocketContextProvider";
 import GameContainer from "./layout/Game/GameContainer";
@@ -30,6 +32,7 @@ export default function App() {
               <Route path="/login" component={Login}/>
               <Route path="/register" component={Register}/>
               <Route path="/game/:roomId" component={GameContainer}/>
+              <Route path="/activate/:token" component={ActivateAccount}/>
             </Switch>
           </div>
         </SocketContextProvider>

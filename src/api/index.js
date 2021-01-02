@@ -61,3 +61,21 @@ export async function register(name, email, password) {
     const response = await fetch(api_url + `/user/register`, options);
     return response;
 }
+
+export async function activateAccount(token) {
+    const options = {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+        referrer: 'no-referrer',
+        body: JSON.stringify({ token: token}),
+    }
+
+    const response = await fetch(api_url + `/account/activate`, options);
+    return response;
+}

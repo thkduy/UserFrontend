@@ -226,9 +226,10 @@ export default function Login() {
               </Grid>
               <Grid item>
               <GoogleLogin
-              clientId={clientId}
-              onSuccess={responseGoogle}
-              onFailure={responseGoogleFail}
+                clientId={clientId}
+                onSuccess={responseGoogle}
+                onFailure={responseGoogleFail}
+                cookiePolicy={'single_host_origin'}
               />
               </Grid>
             </Grid>
