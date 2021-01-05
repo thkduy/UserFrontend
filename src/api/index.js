@@ -1,5 +1,5 @@
 const api_url = `https://dack-caro-online-api.herokuapp.com/api`;
-//const api_url = `http://localhost:3001/api`; for testing in local
+//const api_url = `http://localhost:3001/api`; //for testing in local
 
 export async function login(email, password) {
     const options = {
@@ -19,7 +19,7 @@ export async function login(email, password) {
     return response;
 }
 
-export async function loginGoogle(accessToken, email, name) {
+export async function loginGoogle(accessToken, email, name, avatar) {
     const options = {
         method: 'POST',
         mode: 'cors',
@@ -33,13 +33,38 @@ export async function loginGoogle(accessToken, email, name) {
         body: JSON.stringify({ 
             accessToken: accessToken, 
             email: email, 
-            name: name 
+            name: name,
+            avatar: avatar 
         }),
     }
 
     const response = await fetch(api_url + `/user/login-google`, options);
     return response;
 }
+
+export async function loginFacebook(accessToken, email, name, avatar) {
+    const options = {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+        referrer: 'no-referrer',
+        body: JSON.stringify({ 
+            accessToken: accessToken, 
+            email: email, 
+            name: name,
+            avatar: avatar 
+        }),
+    }
+
+    const response = await fetch(api_url + `/user/login-facebook`, options);
+    return response;
+}
+
 
 export async function register(name, email, password) {
     const options = {

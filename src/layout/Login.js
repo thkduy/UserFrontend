@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import authUserContext from '../context/AuthUserContext';
 import jwt from "jsonwebtoken";
 import { GoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 import {
   Box,
   TextField,
@@ -23,7 +24,7 @@ import {
 } from "@material-ui/icons";
 import Alert from '@material-ui/lab/Alert';
 import LockIcon from '@material-ui/icons/Lock';
-import { login, loginGoogle } from '../api/index';
+import { login, loginFacebook, loginGoogle } from '../api/index';
 
 const clientId = '221518239051-e1tr6ae3cgmjpdmflafidpv9mqrmqd1a.apps.googleusercontent.com';
 export default function Login() {
@@ -84,7 +85,7 @@ export default function Login() {
   };
 
   const responseGoogle = async (resp) => {
-    const response = await loginGoogle(resp.accessToken, resp.profileObj.email, resp.profileObj.name);
+    const response = await loginGoogle(resp.accessToken, resp.profileObj.email, resp.profileObj.name, resp.profileObj.imageUrl);
     const res = await response.json();
     if (response.ok) {
       const user = jwt.decode(res.token);
@@ -103,6 +104,27 @@ export default function Login() {
 
   const responseGoogleFail = (resp) => {
     console.log(resp);
+  }
+
+  const responseFacebook = async (resp) => {
+    if (!(resp.status && resp.status === "unknown")) {
+      const response = await loginFacebook(resp.accessToken, resp.email, resp.name, resp.picture.data.url);
+      const res = await response.json();
+      if (response.ok) {
+        const user = jwt.decode(res.token);
+        checkAuthenticated(!isAuthenticated);
+        signIn(user);
+        setNewToken(res.token);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("isAuthenticated", JSON.stringify(true));
+        localStorage.setItem("token", JSON.stringify(res.token));
+        history.push('/');
+      } else if (response.status === 400) {
+        setError(res.message);
+        return;
+      }
+    }
+
   }
 
   return (
@@ -239,6 +261,15 @@ export default function Login() {
                   onSuccess={responseGoogle}
                   onFailure={responseGoogleFail}
                   cookiePolicy={'single_host_origin'}
+                />
+                </Grid>
+                <Grid item>
+                <FacebookLogin
+                  style={{width:'200px!important'}}
+                  appId="173125904556436"
+                  fields="name,email,picture"
+                  callback={responseFacebook}
+                  icon="fa-facebook"
                 />
               </Grid>
             </Grid>

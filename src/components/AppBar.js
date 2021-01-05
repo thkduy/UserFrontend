@@ -8,8 +8,8 @@ import {
     MenuItem,
     Menu,
     Button,
+    Avatar
 } from "@material-ui/core";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import { useHistory } from "react-router-dom";
 import authUserContext  from '../context/AuthUserContext';
 
@@ -37,6 +37,7 @@ export default function MenuAppBar() {
   const classes = useStyles();
   const data = useContext(authUserContext);
   const name = data.user.name;
+  const avatar = data.user.avatar;
   const auth = data.isAuthenticated;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -86,7 +87,7 @@ export default function MenuAppBar() {
                 color="inherit"
                 
               >
-                <AccountCircle />
+                <Avatar src={avatar} />
                 <Typography style={{paddingLeft: 5}}>
                   {name}
                 </Typography>
