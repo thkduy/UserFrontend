@@ -19,6 +19,7 @@
     "serve": "^11.3.2",
     "socket.io-client": "^3.0.4",
     "styled-components": "^5.2.1",
+    "sweetalert": "^2.1.2",
     "sweetalert2": "^10.10.1",
     "web-vitals": "^0.2.4"
   },

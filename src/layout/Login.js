@@ -1,8 +1,8 @@
-import {React, useState, useContext} from "react";
-import {Link, useHistory} from "react-router-dom";
+import { React, useState, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
 import authUserContext from '../context/AuthUserContext';
 import jwt from "jsonwebtoken";
-import {GoogleLogin} from 'react-google-login';
+import { GoogleLogin } from 'react-google-login';
 import {
   Box,
   TextField,
@@ -23,7 +23,7 @@ import {
 } from "@material-ui/icons";
 import Alert from '@material-ui/lab/Alert';
 import LockIcon from '@material-ui/icons/Lock';
-import {login, loginGoogle} from '../api/index';
+import { login, loginGoogle } from '../api/index';
 
 const clientId = '221518239051-e1tr6ae3cgmjpdmflafidpv9mqrmqd1a.apps.googleusercontent.com';
 export default function Login() {
@@ -45,11 +45,11 @@ export default function Login() {
     showPassword: false
   });
   const handleChange = (prop) => (event) => {
-    setValues({...values, [prop]: event.target.value});
+    setValues({ ...values, [prop]: event.target.value });
   };
 
   const handleClickShowPassword = () => {
-    setValues({...values, showPassword: !values.showPassword});
+    setValues({ ...values, showPassword: !values.showPassword });
   };
 
   const handleMouseDownPassword = (event) => {
@@ -59,11 +59,11 @@ export default function Login() {
   const handleLogin = async () => {
 
     const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if(!email.match(pattern)){
-        setError('Invalid email');
-        return;
-    }else{
-        setError('');
+    if (!email.match(pattern)) {
+      setError('Invalid email');
+      return;
+    } else {
+      setError('');
     }
 
     const response = await login(email, values.password);
@@ -86,18 +86,18 @@ export default function Login() {
   const responseGoogle = async (resp) => {
     const response = await loginGoogle(resp.accessToken, resp.profileObj.email, resp.profileObj.name);
     const res = await response.json();
-    if(response.ok){
-        const user = jwt.decode(res.token);
-        checkAuthenticated(!isAuthenticated);
-        signIn(user);
-        setNewToken(res.token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("isAuthenticated", JSON.stringify(true));
-        localStorage.setItem("token", JSON.stringify(res.token));
-        history.push('/');
-    }else if (response.status === 400) {
-        setError(res.message);
-        return;
+    if (response.ok) {
+      const user = jwt.decode(res.token);
+      checkAuthenticated(!isAuthenticated);
+      signIn(user);
+      setNewToken(res.token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("isAuthenticated", JSON.stringify(true));
+      localStorage.setItem("token", JSON.stringify(res.token));
+      history.push('/');
+    } else if (response.status === 400) {
+      setError(res.message);
+      return;
     }
   }
 
@@ -115,12 +115,12 @@ export default function Login() {
     >
       <Grid item>
         <Paper elevation={3}>
-          <Box style={{width: 300}}>
+          <Box style={{ width: 300 }}>
             <Grid
               container
               spacing={1}
               justify="center"
-              style={{marginTop: 10}}
+              style={{ marginTop: 10 }}
             >
               <Grid item>
                 <Typography variant="h4">
@@ -136,13 +136,13 @@ export default function Login() {
               justify="center"
             >
               <Grid item>
-                <AccountCircle/>
+                <AccountCircle />
               </Grid>
               <Grid item>
                 <TextField
                   label="Email"
                   value={email}
-                  style={{width: 250}}
+                  style={{ width: 250 }}
                   onChange={handleEmailChange}
                 />
               </Grid>
@@ -154,7 +154,7 @@ export default function Login() {
               justify="center"
             >
               <Grid item>
-                <LockIcon/>
+                <LockIcon />
               </Grid>
               <Grid item>
                 <FormControl>
@@ -171,7 +171,7 @@ export default function Login() {
                           onClick={handleClickShowPassword}
                           onMouseDown={handleMouseDownPassword}
                         >
-                          {values.showPassword ? <Visibility/> : <VisibilityOff/>}
+                          {values.showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>
                     }
@@ -179,23 +179,32 @@ export default function Login() {
                 </FormControl>
               </Grid>
             </Grid>
+            <Grid container
+              spacing={1}
+              alignItems="flex-end"
+              justify="center">
+              <Typography variant="subtitle1" style={{ width: '100%', marginLeft: 25, marginRight: 25 }}>
+                <Link to="/forgot-password">
+                  Forgot password?
+                  </Link>
+              </Typography>
+            </Grid>
             <Grid
               container
               spacing={1}
               alignItems="flex-end"
               justify="center"
-              style={{marginTop: 20, marginBottom: 10}}
+              style={{ marginTop: 20, marginBottom: 10 }}
             >
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleLogin}
-                  disabled={!email.trim().length > 0 || !values.password.trim().length > 0}
-                >
-                  Login
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleLogin}
+                disabled={!email.trim().length > 0 || !values.password.trim().length > 0}
+                style={{ width: '100%', marginLeft: 25, marginRight: 25 }}
+              >
+                Login
                 </Button>
-              </Grid>
             </Grid>
             <Grid
               container
@@ -217,7 +226,7 @@ export default function Login() {
               spacing={1}
               alignItems="center"
               justify="center"
-              style={{marginBottom: 20}}
+              style={{ marginBottom: 20 }}
             >
               <Grid item>
                 <Typography variant="h5">
@@ -225,12 +234,12 @@ export default function Login() {
                 </Typography>
               </Grid>
               <Grid item>
-              <GoogleLogin
-                clientId={clientId}
-                onSuccess={responseGoogle}
-                onFailure={responseGoogleFail}
-                cookiePolicy={'single_host_origin'}
-              />
+                <GoogleLogin
+                  clientId={clientId}
+                  onSuccess={responseGoogle}
+                  onFailure={responseGoogleFail}
+                  cookiePolicy={'single_host_origin'}
+                />
               </Grid>
             </Grid>
           </Box>

@@ -1,4 +1,5 @@
 const api_url = `https://dack-caro-online-api.herokuapp.com/api`;
+//const api_url = `http://localhost:3001/api`; for testing in local
 
 export async function login(email, password) {
     const options = {
@@ -77,5 +78,40 @@ export async function activateAccount(token) {
     }
 
     const response = await fetch(api_url + `/account/activate`, options);
+    return response;
+}
+
+export async function SendMailChangePassword(email) {
+    const options = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+        referrer: 'no-referrer',
+    }
+
+    const response = await fetch(api_url + `/account/send-mail-change-password?email=`+email, options);
+    return response;
+}
+
+export async function changePassword(token, password) {
+    const options = {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+        referrer: 'no-referrer',
+        body: JSON.stringify({ token: token, password: password}),
+    }
+
+    const response = await fetch(api_url + `/account/change-password`, options);
     return response;
 }

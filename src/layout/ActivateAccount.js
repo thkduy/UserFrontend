@@ -15,17 +15,17 @@ export default function Home() {
     const [message, setMessage] = useState('');
     const [isError, setIsError] = useState(false);
 
-    useEffect( async () => {
+    useEffect(async () => {
         const response = await activateAccount(token);
         const res = await response.json();
-    if (response.ok) {
-        setMessage(res.message);
-      } else if (response.status === 400) {
-        setIsError(true);
-        setMessage(res.message);
-        return;
-      }
-    },[]);
+        if (response.ok) {
+            setMessage(res.message);
+        } else if (response.status === 400) {
+            setIsError(true);
+            setMessage(res.message);
+            return;
+        }
+    }, []);
 
     return (
         <Grid
