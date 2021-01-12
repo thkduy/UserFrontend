@@ -6,7 +6,7 @@ const useSenderContainerStyles = makeStyles((theme) => createStyles({
   root: {
     display: 'flex',
     flexGrow: '1',
-    overflowY: 'scroll',
+    overflowY: 'auto',
     flexDirection: 'column',
     alignItems: 'flex-start',
     padding: '10px',

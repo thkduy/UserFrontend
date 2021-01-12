@@ -4,10 +4,10 @@ import {useHistory, useParams} from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import {Typography, Button, Box, Divider} from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
 import SocketContext from "../../context/SocketContext";
 import GameBoard from "../GameBoard/GameBoard";
 import MessageBoard from "../MessageBoard/MessageBoard";
+import GameInfo from "../GameInfo/GameInfo";
 
 export default function GameContainer(){
   const history = useHistory();
@@ -47,33 +47,36 @@ export default function GameContainer(){
   return (
     <>
     <Container>
-      <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        >
-        <Box border={1} borderColor="secondary.main" p={1}>
-          Room id: {roomId}
-        </Box>
-          <Box>
-            {players.map((player, index) => <Typography key={index}>Player {index} : {player.name}</Typography>)}
-            {viewers.map((viewer, index) => <Typography key={index}>Viewer {index} : {viewer.name}</Typography>)}
-          </Box>
-            <Button variant="contained" color="secondary" onClick={handleLeave}>
-              Leave game
-            </Button>
-        </Grid>
-        <Divider />
+      {/*<Grid*/}
+      {/*    container*/}
+      {/*    direction="row"*/}
+      {/*    justify="space-between"*/}
+      {/*    alignItems="center"*/}
+      {/*  >*/}
+      {/*  <Box border={1} borderColor="secondary.main" p={1}>*/}
+      {/*    Room id: {roomId}*/}
+      {/*  </Box>*/}
+      {/*    <Box>*/}
+      {/*      {players.map((player, index) => <Typography key={index}>Player {index} : {player.name}</Typography>)}*/}
+      {/*      {viewers.map((viewer, index) => <Typography key={index}>Viewer {index} : {viewer.name}</Typography>)}*/}
+      {/*    </Box>*/}
+      {/*      <Button variant="contained" color="secondary" onClick={handleLeave}>*/}
+      {/*        Leave game*/}
+      {/*      </Button>*/}
+      {/*  </Grid>*/}
+      {/*  <Divider />*/}
         </Container>
-      <Grid container spacing={2}>
-        <Grid item xs={7} style={{display: 'flex', justifyContent: 'flex-end'}}>
-          <GameBoard />
+      <Container>
+        <Grid container spacing={0}>
+          <Grid item xs={8} style={{display: 'flex', justifyContent: 'center', backgroundColor: "#FFEAA7"}}>
+            <GameBoard />
+          </Grid>
+          <Grid item xs ={4}>
+            <GameInfo style = {{height: "100%"}}/>
+          </Grid>
         </Grid>
-        <Grid item xs ={5}>
-          <MessageBoard />
-        </Grid>
-      </Grid>
+      </Container>
+
     </>
   );
 }

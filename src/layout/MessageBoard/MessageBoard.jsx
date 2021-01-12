@@ -16,12 +16,21 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    width: '350px',
-    height: '400px',
+    height: "350px",
+    backgroundColor: '#FFFFFF',
+    border: "1px solid black"
   },
   margin: {
     margin: theme.spacing(1),
   },
+  title: {
+    height: "20px",
+    backgroundColor: "#1F2930",
+    padding: "5px 5px",
+    fontWeight: "bold",
+    fontSize: "12px",
+    color: "#FFFFFF"
+  }
 }));
 
 export default function MessageBoard(){
@@ -57,7 +66,10 @@ export default function MessageBoard(){
   }, []);
 
   return (
-  <Paper className={classes.root} elevation={2} >
+  <div className={classes.root} >
+    <div className={classes.title}>
+      Messages
+    </div>
     <MessagesContainer>
       {
         listMessage.map(message => (<MessageComponent {...message}/>))
@@ -85,7 +97,7 @@ export default function MessageBoard(){
         form = "msgForm"
       />
     </SenderContainer>
-  </Paper>
+  </div>
   );
 }
 

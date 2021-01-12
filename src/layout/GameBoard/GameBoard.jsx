@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => createStyles({
   root: {
     display: 'flex',
     flexDirection: 'column',
-
+    padding: "20px"
   }
 }));
 
@@ -74,13 +74,14 @@ export default function GameBoard(){
 
   return (
     <GameBoardContext.Provider value={{handleCellClicked: handleCellClicked}}>
-      <Paper className={classes.paper} elevation={2} >
+      {/*<Paper className={classes.paper} elevation={2} >*/}
+
         <Box component="div" className={classes.root}>
           { allValues.map((rowValues, index) =>
             <RowGameBoard listValues={rowValues} row={index} />)
           }
         </Box>
-      </Paper>
+      {/*</Paper>*/}
     </GameBoardContext.Provider>
 
   )

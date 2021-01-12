@@ -28,10 +28,10 @@ export default function Home() {
   }
 
   const handleCreateNewGame = () => {
-    socket.emit('create-game', { user });
-    socket.on('get-new-game-id', (data) =>{
-      // console.log(data);
-      history.push(`/game/${data.roomId}`);
+    socket.emit('create-game', user);
+    socket.on('new-game-id', (roomId) =>{
+      console.log(data);
+      history.push(`/game/${roomId}`);
     });
   }
 
