@@ -1,5 +1,5 @@
-import {React, useEffect, useState, useContext} from "react";
-import {useHistory} from "react-router-dom";
+import { React, useEffect, useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Button,
   TextField,
@@ -7,13 +7,13 @@ import {
   Grid,
   Typography,
   Container,
-  Divider
 } from "@material-ui/core";
 
 import ListUsers from "./Home/ListUsers";
 import ListRoom from "./Home/ListRoom";
+import ButtonDialogPlayNow from "./Home/DialogPlayNow";
 
-import authUserContext  from '../context/AuthUserContext';
+import authUserContext from '../context/AuthUserContext';
 import SocketContext from "../context/SocketContext";
 
 
@@ -32,51 +32,43 @@ export default function Home() {
 
   const handleCreateNewGame = () => {
     socket.emit('create-game', user);
-    socket.on('new-game-id', (roomId) =>{
+    socket.on('new-game-id', (roomId) => {
       console.log(data);
       history.push(`/game/${roomId}`);
     });
   }
 
   const handleJoinGame = () => {
-    socket.emit('join-game',{ user, roomId},(error) => {
-      if(error) {
+    socket.emit('join-game', { user, roomId }, (error) => {
+      if (error) {
         alert(error);
         setRoomId('');
-      }else{
+      } else {
         history.push(`/game/${roomId}`);
       }
     });
-
-  }
-
-  const handlePlayNow = ()=>{
-
   }
 
   return (
     <>
-      {/*<ListUsers />*/}
-        { data.isAuthenticated ?
-          <>
+      { data.isAuthenticated ?
+        <>
           <Container maxWidth="lg">
-              <Box display="flex" flexDirection="row" justifyContent="space-between" style={{ marginBottom: 20 }}>
-                <Box display="flex">
-                  <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
-                    New game
+            <Box display="flex" flexDirection="row" justifyContent="space-between" style={{ marginBottom: 20 }}>
+              <Box display="flex">
+                <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
+                  New game
                   </Button>
-                  <Button variant="contained" color="secondary" onClick={handlePlayNow} style={{ marginLeft: 10 }}>
-                  Play now
-                  </Button>
-                </Box>
-                
-                <Box display="flex" alignItems="center">
-                  <TextField size="small" label="Enter game code" value={roomId} variant="outlined" onChange={handleChange} />
-                  <Button  variant="contained" color="secondary" onClick={handleJoinGame} style={{ marginLeft: 10 }}>
-                    Join game
-                  </Button>
-                </Box>
+                <ButtonDialogPlayNow />
               </Box>
+
+              <Box display="flex" alignItems="center">
+                <TextField size="small" label="Enter game code" value={roomId} variant="outlined" onChange={handleChange} />
+                <Button variant="contained" color="secondary" onClick={handleJoinGame} style={{ marginLeft: 10 }}>
+                  Join game
+                  </Button>
+              </Box>
+            </Box>
             <Grid container spacing={1}>
               <Grid item xs={9}>
                 <ListRoom />
@@ -86,13 +78,12 @@ export default function Home() {
               </Grid>
             </Grid>
           </Container>
-          </>
-          :
-          <Typography variant="h1">
-            Welcome to Caro Online !
+        </>
+        :
+        <Typography variant="h1">
+          Welcome to Caro Online !
           </Typography>
-        }
-      </>
+      }
+    </>
   )
 }
-
