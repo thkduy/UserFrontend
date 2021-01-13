@@ -75,8 +75,8 @@ export default function Login() {
       signIn(user);
       setNewToken(res.token);
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("isAuthenticated", JSON.stringify(true));
-      localStorage.setItem("token", JSON.stringify(res.token));
+      localStorage.setItem("isAuthenticated", true);
+      localStorage.setItem("token", res.token);
       history.push('/');
     } else if (response.status === 400) {
       setError(res.message);
@@ -93,8 +93,8 @@ export default function Login() {
       signIn(user);
       setNewToken(res.token);
       localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("isAuthenticated", JSON.stringify(true));
-      localStorage.setItem("token", JSON.stringify(res.token));
+      localStorage.setItem("isAuthenticated", true);
+      localStorage.setItem("token", res.token);
       history.push('/');
     } else if (response.status === 400) {
       setError(res.message);
@@ -116,8 +116,8 @@ export default function Login() {
         signIn(user);
         setNewToken(res.token);
         localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("isAuthenticated", JSON.stringify(true));
-        localStorage.setItem("token", JSON.stringify(res.token));
+        localStorage.setItem("isAuthenticated", true);
+        localStorage.setItem("token", res.token);
         history.push('/');
       } else if (response.status === 400) {
         setError(res.message);
