@@ -18,6 +18,7 @@ import EnterEmailRecover from './layout/EnterEmailRecover';
 import Profile from './layout/Profile';
 import GameHistory from './layout/GameHistory';
 import Rank from './layout/Rank';
+import ViewGame from './layout/ViewGame/ViewGame';
 import Error404 from './layout/Error';
 
 import MenuAppBar from './components/AppBar.js';
@@ -44,6 +45,7 @@ export default function App() {
               <Route path="/profile" component={Profile}/>
               <Route path="/history" component={GameHistory}/>
               <Route path="/rank" component={Rank}/>
+              <Route path="/view-game" search="?gameid=id" component={ViewGame}/>
               <Route component={Error404}/>
             </Switch>
           </div>

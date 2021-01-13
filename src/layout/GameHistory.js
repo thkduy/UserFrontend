@@ -52,7 +52,7 @@ export default function GameHistory() {
     }, [token, checkAuthenticated, signIn, setNewToken]);
 
     function handleViewGame(id){
-        history.push(`/view-chat?roomid=${id}`);
+        history.push(`/view-game?gameid=${id}`);
     }
     
     return (

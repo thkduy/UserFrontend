@@ -176,3 +176,21 @@ export async function getRank(token) {
     const response = await fetch(api_url + `/user/do/rank`, options);
     return response;
 }
+
+export async function getGame(token, id) {
+    const options = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        redirect: 'follow',
+        referrer: 'no-referrer',
+    }
+
+    const response = await fetch(api_url + `/user/do/get-game-by-gameid?id=${id}`, options);
+    return response;
+}
