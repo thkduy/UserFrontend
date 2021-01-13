@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import SocketContext from "./SocketContext";
 import {io} from "socket.io-client";
 
@@ -6,6 +5,8 @@ const SocketProvider = (props) => {
 
   let socket = io('https://dack-caro-online-api.herokuapp.com/');
   //let socket = io('http://localhost:3001'); //for testing in local
+
+  socket.on('')
 
   // useEffect(() => {
   //   const initSocket = io('http://localhost:3001/', {

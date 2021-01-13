@@ -1,9 +1,10 @@
 import {makeStyles} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
-import React from "react";
+import React, {useContext} from "react";
 import MessageBoard from "../MessageBoard/MessageBoard";
 import Button from "@material-ui/core/Button";
-import PlayerContainer from "./Player";
+import PlayerContainer from "./PlayerContainer";
+import GameContext from "../../context/GameContext";
 
 const useStyles = makeStyles({
   root: {
@@ -43,7 +44,8 @@ const useStyles = makeStyles({
   }
 })
 
-export default function GameInfo(){
+export default function GameInfo(props){
+  const gameContext = useContext(GameContext);
 
   const classes = useStyles();
 
@@ -51,12 +53,23 @@ export default function GameInfo(){
     <div className={classes.root}>
       <div style={{height: "230px"}}>
         <div className={classes.title}>
-          Room #34343443
+          Room #{props.roomId}
         </div>
 
         <div className={classes.flexRow}>
-          <PlayerContainer title="Player 1" playerName="Anh Hao" time = "00 : 45" />
-          <PlayerContainer title="Player 2" playerName="Khanh Duy" time = "00 : 45" />
+          <PlayerContainer
+            title="Player 1"
+            playerNumber="player1"
+            playerName={props.player1Name ? props.player1Name : null}
+            time = "00 : 45"
+            canStandUp = {(gameContext.sessionPlayer === 'player1' && gameContext.gameResult !== -1)}
+          />
+          <PlayerContainer
+            title="Player 2"
+            playerNumber="player2"
+            playerName={props.player2Name ? props.player2Name : null}
+            time = "00 : 45"
+            canStandUp = {(gameContext.sessionPlayer === 'player2' && gameContext.gameResult !== -1)}/>
         </div>
         <div className={classes.monitors}>
           <Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} >

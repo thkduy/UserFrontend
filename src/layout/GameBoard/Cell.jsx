@@ -1,6 +1,7 @@
 import {createStyles, makeStyles} from "@material-ui/core";
-import React, {useContext} from "react";
-import GameBoardContext from "../../context/GameBoardContext";
+import React, {useContext, useState} from "react";
+import GameContext from "../../context/GameContext";
+import {IsoOutlined} from "@material-ui/icons";
 
 const useCellGameBoardStyles = makeStyles(theme => createStyles({
   root: {
@@ -16,26 +17,42 @@ const useCellGameBoardStyles = makeStyles(theme => createStyles({
       width: '21px',
       height: '21px'
     },
-    '&:hover': {
-      backgroundColor: "#FFEAA7"
-    }
+    // '&:hover': {
+    //   backgroundColor: "#FFEAA7"
+    // }
   }
 }));
 
 
 export default function Cell(props){
-  const {handleCellClicked} = useContext(GameBoardContext);
+  const gameContext = useContext(GameContext);
+  const handleCellClicked = gameContext.handleCellClicked;
+  const [hover, setHover] = useState(false);
 
   const classes = useCellGameBoardStyles();
   const {value, row, column} = props;
   const mappingValueToComponent = {
-    "-1": <SvgO />,
     "0": <></>,
-    "1": <SvgX />
+    "1": <SvgX />,
+    "2": <SvgO />
+  }
+
+  const handleMouseOut = () => {
+    setHover(false);
+  }
+  const handleMouseOver = () => {
+    if (gameContext.boardEnabled) {
+      setHover(true);
+    }
   }
 
   return (
-    <div className={classes.root} onClick={() => {handleCellClicked(row, column)}}>
+    <div className={classes.root}
+         onClick= {!value? () => handleCellClicked(row, column) : () => {}}
+         onMouseOver={handleMouseOver}
+         onMouseOut={handleMouseOut}
+         style={{backgroundColor: hover ? '#FFEAA7' : '#FEFEFE'}}
+    >
       {mappingValueToComponent[value]}
     </div>
   )

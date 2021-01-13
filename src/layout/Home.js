@@ -5,8 +5,7 @@ import {
   TextField,
   Box,
   Grid,
-  Typography,
-  Container,
+  Typography
 } from "@material-ui/core";
 
 import ListUsers from "./Home/ListUsers";
@@ -32,18 +31,27 @@ export default function Home() {
 
   const handleCreateNewGame = () => {
     socket.emit('create-game', user);
-    socket.on('new-game-id', (roomId) => {
-      console.log(data);
-      history.push(`/game/${roomId}`);
-    });
+
   }
 
+  useEffect(() => {
+    socket.on('new-game-id', (roomId) =>{
+      console.log(roomId);
+      history.push(`/game/${roomId}`);
+    });
+    return () => {
+      socket.off('new-game-id');
+    }
+  }, []);
+
   const handleJoinGame = () => {
-    socket.emit('join-game', { user, roomId }, (error) => {
-      if (error) {
+    socket.emit('join-game', roomId, user, (error) => {
+      console.log('join-game ' + roomId);
+      if(error) {
         alert(error);
         setRoomId('');
-      } else {
+      }
+      else{
         history.push(`/game/${roomId}`);
       }
     });
