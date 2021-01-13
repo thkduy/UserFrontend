@@ -8,7 +8,8 @@ import {
     MenuItem,
     Menu,
     Button,
-    Avatar
+    Avatar,
+    Box
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import authUserContext  from '../context/AuthUserContext';
@@ -21,8 +22,11 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2)
   },
   title: {
-    flexGrow: 1,
     cursor: 'pointer'
+  },
+  menuItem: {
+    cursor: 'pointer',
+    marginLeft: 20,
   }
 }));
 
@@ -75,13 +79,26 @@ export default function MenuAppBar() {
     history.push("/");
   }
 
+  const handleHistoryClick = () => history.push("/history");
+
+  const handleRankClick = () => history.push("/rank");
+
   return (
     <div className={classes.root} style={{ marginBottom: 20 }}>
       <AppBar position="static" >
         <Toolbar>
-          <Typography onClick={handleClick} variant="h6" className={classes.title}>
-            CaroOnline
-          </Typography>
+        <Box display="flex" justifyContent="space-between" width="100%">
+          <Box display="flex" flexDirection="row" alignItems="center" width="50%">
+            <Typography onClick={handleClick} variant="h6" className={classes.title}>
+              CaroOnline
+            </Typography>
+            {isAuthenticated ? <><Typography onClick={handleRankClick} variant="h6" color="secondary" className={classes.menuItem}>
+              Rank
+            </Typography>
+              <Typography onClick={handleHistoryClick} variant="h6" color="secondary" className={classes.menuItem}>
+                Game History
+            </Typography></> : null}
+          </Box>
           {auth ? (
             <div>
               <IconButton
@@ -120,6 +137,7 @@ export default function MenuAppBar() {
           ) : (
             <Button variant="contained" color="secondary" onClick={handleLogin}>Login</Button>
           )}
+          </Box>
         </Toolbar>
       </AppBar>
     </div>
