@@ -35,9 +35,9 @@ export default function ListUsers(){
 
 
   return (<>
-    <Container>
+    {/* <Container>
       <Grid container style={{marginTop: 50}} component="section">
-        <Grid item xs={6}>
+        <Grid item xs={6}> */}
           <Paper>
             <Table size="small">
               <TableHead>
@@ -79,8 +79,8 @@ export default function ListUsers(){
               </TableBody>
             </Table>
           </Paper>
-        </Grid>
+        {/* </Grid>
       </Grid>
-    </Container>
+    </Container> */}
   </>);
 }

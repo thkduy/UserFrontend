@@ -5,10 +5,13 @@ import {
   TextField,
   Box,
   Grid,
-  Typography
+  Typography,
+  Container,
+  Divider
 } from "@material-ui/core";
 
 import ListUsers from "./Home/ListUsers";
+import ListRoom from "./Home/ListRoom";
 
 import authUserContext  from '../context/AuthUserContext';
 import SocketContext from "../context/SocketContext";
@@ -47,29 +50,42 @@ export default function Home() {
 
   }
 
+  const handlePlayNow = ()=>{
+
+  }
+
   return (
     <>
       {/*<ListUsers />*/}
         { data.isAuthenticated ?
           <>
-            <Grid
-              container
-              direction="row"
-              justify="space-evenly"
-              alignItems="baseline"
-            >
-              <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
-                Create new game
-              </Button>
-              <Box display="flex" alignItems="center">
-                <TextField label="Enter game code" value={roomId} variant="outlined" onChange={handleChange}/>
-                <Button variant="contained" color="secondary" onClick={handleJoinGame} style={{marginLeft:10}}>
-                  Join game
-                </Button>
+          <Container maxWidth="lg">
+              <Box display="flex" flexDirection="row" justifyContent="space-between" style={{ marginBottom: 20 }}>
+                <Box display="flex">
+                  <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
+                    New game
+                  </Button>
+                  <Button variant="contained" color="secondary" onClick={handlePlayNow} style={{ marginLeft: 10 }}>
+                  Play now
+                  </Button>
+                </Box>
+                
+                <Box display="flex" alignItems="center">
+                  <TextField size="small" label="Enter game code" value={roomId} variant="outlined" onChange={handleChange} />
+                  <Button  variant="contained" color="secondary" onClick={handleJoinGame} style={{ marginLeft: 10 }}>
+                    Join game
+                  </Button>
+                </Box>
               </Box>
+            <Grid container spacing={1}>
+              <Grid item xs={9}>
+                <ListRoom />
+              </Grid>
+              <Grid item xs={3}>
+                <ListUsers />
+              </Grid>
             </Grid>
-
-            {/*<ListUsers />*/}
+          </Container>
           </>
           :
           <Typography variant="h1">
