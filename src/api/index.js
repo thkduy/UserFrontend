@@ -140,3 +140,39 @@ export async function changePassword(token, password) {
     const response = await fetch(api_url + `/account/change-password`, options);
     return response;
 }
+
+export async function getAllGameOfUser(token, id) {
+    const options = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        redirect: 'follow',
+        referrer: 'no-referrer',
+    }
+
+    const response = await fetch(api_url + `/user/do/get-all-game-by-userid?id=${id}`, options);
+    return response;
+}
+
+export async function getRank(token) {
+    const options = {
+        method: 'GET',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        redirect: 'follow',
+        referrer: 'no-referrer',
+    }
+
+    const response = await fetch(api_url + `/user/do/rank`, options);
+    return response;
+}

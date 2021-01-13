@@ -38,7 +38,6 @@ export default function Profile() {
     useEffect(() => {
         async function getData(){
             const data = await jwt.decode(token);
-            console.log(data);
             if (data.point < 500) setRank('ForFun ✌');
             else if (data.point >= 500 && data.point < 1000) setRank('Gold ✨');
             else if (data.point < 1500 && data.point >= 500) setRank('Platinum 🌟');
