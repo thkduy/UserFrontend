@@ -1,5 +1,5 @@
-//const api_url = `https://dack-caro-online-api.herokuapp.com/api`;
-const api_url = `http://localhost:3001/api`; //for testing in local
+const api_url = `https://dack-caro-online-api.herokuapp.com/api`;
+//const api_url = `http://localhost:3001/api`; //for testing in local
 
 export async function login(email, password) {
     const options = {
