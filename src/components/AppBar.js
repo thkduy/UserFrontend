@@ -62,6 +62,11 @@ export default function MenuAppBar() {
     history.push("/");
   };
 
+  const handleProfile = () => {
+    setAnchorEl(null);
+    history.push("/profile");
+  }
+
   const handleLogin = () => {
     history.push("/login");
   };
@@ -108,6 +113,7 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
+                <MenuItem onClick={handleProfile}>View profile</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>

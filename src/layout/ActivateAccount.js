@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
     Grid,
     Card,
@@ -9,23 +9,25 @@ import {
 import Alert from '@material-ui/lab/Alert';
 import { activateAccount } from "../api";
 
-export default function Home() {
-    //const history = useHistory();
+export default function ActivateAccount() {
     const { token } = useParams();
     const [message, setMessage] = useState('');
     const [isError, setIsError] = useState(false);
 
-    useEffect(async () => {
-        const response = await activateAccount(token);
-        const res = await response.json();
-        if (response.ok) {
-            setMessage(res.message);
-        } else if (response.status === 400) {
-            setIsError(true);
-            setMessage(res.message);
-            return;
+    useEffect(() => {
+        async function fetchData() {
+            const response = await activateAccount(token);
+            const res = await response.json();
+            if (response.ok) {
+                setMessage(res.message);
+            } else if (response.status === 400) {
+                setIsError(true);
+                setMessage(res.message);
+                return;
+            }
         }
-    }, []);
+        fetchData();
+    }, [token]);
 
     return (
         <Grid

@@ -15,6 +15,7 @@ import Register from './layout/Register.js';
 
 import ActivateAccount from './layout/ActivateAccount';
 import EnterEmailRecover from './layout/EnterEmailRecover';
+import Profile from './layout/Profile';
 
 import MenuAppBar from './components/AppBar.js';
 import SocketContextProvider from "./context/SocketContextProvider";
@@ -37,6 +38,7 @@ export default function App() {
               <Route path="/activate/:token" component={ActivateAccount}/>
               <Route path="/forgot-password" component={EnterEmailRecover}/>
               <Route path="/change-password/:token" component={ChangePassword}/>
+              <Route path="/profile" component={Profile}/>
             </Switch>
           </div>
         </SocketContextProvider>
