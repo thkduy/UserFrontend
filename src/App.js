@@ -18,6 +18,7 @@ import EnterEmailRecover from './layout/EnterEmailRecover';
 import Profile from './layout/Profile';
 import GameHistory from './layout/GameHistory';
 import Rank from './layout/Rank';
+import Error404 from './layout/Error';
 
 import MenuAppBar from './components/AppBar.js';
 import SocketContextProvider from "./context/SocketContextProvider";
@@ -43,6 +44,7 @@ export default function App() {
               <Route path="/profile" component={Profile}/>
               <Route path="/history" component={GameHistory}/>
               <Route path="/rank" component={Rank}/>
+              <Route component={Error404}/>
             </Switch>
           </div>
         </SocketContextProvider>
