@@ -1,7 +1,7 @@
 import { React, useState, useContext, useEffect } from "react";
 import {
     Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Box, Avatar,
-    Grid
+    Grid, CircularProgress
 } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import authUserContext from '../context/AuthUserContext';
@@ -59,7 +59,8 @@ export default function GameHistory() {
     return (
         <Container maxWidth="lg">
             <Typography variant="h4" style={{marginBottom:20}}>Rank</Typography>
-            {data && data.length === 0 ? <Typography variant="h4">None user</Typography>:
+            {data ? 
+            data.length === 0 ? <Typography variant="h4">None match was found</Typography>:
             <TableContainer component={Paper}>
                 <Table className={classes.table}>
                     <TableHead className={classes.tableHead}>
@@ -98,7 +99,7 @@ export default function GameHistory() {
                         )) : null}
                     </TableBody>
                 </Table>
-            </TableContainer>}
+            </TableContainer>:<Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>}
         </Container> 
     );
 }

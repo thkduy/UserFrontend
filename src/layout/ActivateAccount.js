@@ -5,13 +5,14 @@ import {
     Card,
     CardHeader,
     CardContent,
+    CircularProgress
 } from "@material-ui/core";
 import Alert from '@material-ui/lab/Alert';
 import { activateAccount } from "../api";
 
 export default function ActivateAccount() {
     const { token } = useParams();
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState(null);
     const [isError, setIsError] = useState(false);
 
     useEffect(() => {
@@ -36,19 +37,18 @@ export default function ActivateAccount() {
             justify="center"
             alignItems="center"
         >
-            <Card>
-                <CardHeader
-                    title="Activate account"
-                />
-                <CardContent>
-                    {
-                    isError?<Alert severity="error">{message}</Alert>:
-                    <Alert severity="success">{message}</Alert>
-                    }
-                    
-                </CardContent>
-            </Card>
+            {message ?
+                <Card>
+                    <CardHeader
+                        title="Activate account"
+                    />
+                    <CardContent>
+                        {
+                            isError ? <Alert severity="error">{message}</Alert> :
+                                <Alert severity="success">{message}</Alert>
+                        }
+                    </CardContent>
+                </Card> : <CircularProgress />}
         </Grid>
-        
     )
 }

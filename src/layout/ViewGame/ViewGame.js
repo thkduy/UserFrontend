@@ -7,6 +7,7 @@ import {
     Grid,
     Box,
     Avatar,
+    CircularProgress
 } from "@material-ui/core";
 import { getGame } from '../../api';
 import authUserContext from '../../context/AuthUserContext';
@@ -67,13 +68,14 @@ export default function ViewGame() {
                             </Box>
                             {data ? <GameBoard steps={data[0].steps}/> : null}
                         </Box>
-                        :null}
+                        :<Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>}
                     </Paper>
                 </Grid>
                 <Grid item xs={3}>
                     <Paper style={{ height: '400px', overflowY: 'scroll' }}>
                         {data && data.length > 0 ? 
-                            data.map((game) => game.messages.map((message, index) => <ChatBox key={index} {...message} />)): null}
+                            data.map((game) => game.messages.map((message, index) => <ChatBox key={index} {...message} />)): 
+                            <Box display="flex" justifyContent="center" mt={4}><CircularProgress /></Box>}
                     </Paper>
                 </Grid>
             </Grid>
