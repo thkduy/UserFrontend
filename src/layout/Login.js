@@ -1,5 +1,5 @@
 import { React, useState, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import authUserContext from '../context/AuthUserContext';
 import jwt from "jsonwebtoken";
 import { GoogleLogin } from 'react-google-login';
@@ -34,6 +34,7 @@ export default function Login() {
     signIn,
     setNewToken,
   } = useContext(authUserContext);
+  let location = useLocation();
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
@@ -77,7 +78,8 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("isAuthenticated", true);
       localStorage.setItem("token", res.token);
-      history.push('/');
+      let { from } = location.state || { from: { pathname: "/" } };
+      history.push(from);
     } else if (response.status === 400) {
       setError(res.message);
       return;
@@ -95,7 +97,8 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("isAuthenticated", true);
       localStorage.setItem("token", res.token);
-      history.push('/');
+      let { from } = location.state || { from: { pathname: "/" } };
+      history.push(from);
     } else if (response.status === 400) {
       setError(res.message);
       return;
@@ -118,7 +121,8 @@ export default function Login() {
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("isAuthenticated", true);
         localStorage.setItem("token", res.token);
-        history.push('/');
+        let { from } = location.state || { from: { pathname: "/" } };
+        history.push(from);
       } else if (response.status === 400) {
         setError(res.message);
         return;
