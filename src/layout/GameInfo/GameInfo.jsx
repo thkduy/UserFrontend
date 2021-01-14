@@ -61,24 +61,29 @@ export default function GameInfo(props){
             title="Player 1"
             playerNumber="player1"
             playerName={props.player1Name ? props.player1Name : null}
-            time = "00 : 45"
+            time = " "
             canStandUp = {(gameContext.sessionPlayer === 'player1' && gameContext.gameResult !== -1)}
           />
           <PlayerContainer
             title="Player 2"
             playerNumber="player2"
             playerName={props.player2Name ? props.player2Name : null}
-            time = "00 : 45"
+            time = " "
             canStandUp = {(gameContext.sessionPlayer === 'player2' && gameContext.gameResult !== -1)}/>
         </div>
-        <div className={classes.monitors}>
-          <Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} >
-            Xin Hòa
-          </Button>
-          <Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} >
-            Đầu hàng
-          </Button>
-        </div>
+        {
+          gameContext.sessionPlayer && gameContext.gameResult == -1 && gameContext.boardEnabled ?
+            <div className={classes.monitors}>
+            {/*<Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} >*/}
+            {/*  Xin Hòa*/}
+            {/*</Button>*/}
+            <Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} onClick={() => gameContext.surrender()} >
+              Surrender
+            </Button>
+          </div>
+            : <> </>
+        }
+
       </div>
       <MessageBoard />
     </div>

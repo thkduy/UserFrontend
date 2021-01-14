@@ -5,8 +5,8 @@ import AuthUserContext from "./AuthUserContext";
 
 const SocketProvider = (props) => {
 
-  //let socket = io('https://dack-caro-online-api.herokuapp.com/');
-  let socket = io('http://localhost:3001'); //for testing in local
+  let socket = io('https://dack-caro-online-api.herokuapp.com/');
+  // let socket = io('http://localhost:3001'); //for testing in local
 
   const authUserContext = useContext(AuthUserContext);
   socket.emit('new-user-online', authUserContext.user);

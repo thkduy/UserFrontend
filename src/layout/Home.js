@@ -40,9 +40,6 @@ export default function Home() {
       console.log(roomId);
       history.push(`/game/${roomId}`);
     });
-    return () => {
-      socket.off('new-game-id');
-    }
   }, []);
 
   const handleJoinGame = () => {

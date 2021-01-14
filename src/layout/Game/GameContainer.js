@@ -164,6 +164,14 @@ export default function GameContainer(){
     socket.emit('message', roomId, user, curMessage);
   }
 
+  const surrender = () => {
+    console.log('surrender');
+    setBoardEnabled(false);
+    if (sessionPlayerState) {
+      socket.emit('surrender', roomId, sessionPlayerState);
+    }
+  }
+
   return (
     <GameContext.Provider value={{
       handleGoingToPlayClick: handleGoingToPlayClick,
@@ -174,7 +182,8 @@ export default function GameContainer(){
       gameResult: result,
       handleStandUp: handleStandUp,
       emitMessage: emitMessage,
-      messages: messages
+      messages: messages,
+      surrender: surrender
     }}>
       <Container>
         <Grid container spacing={0}>

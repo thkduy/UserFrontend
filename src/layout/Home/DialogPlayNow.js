@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, {useState, useContext, useEffect} from "react";
+import {useHistory} from 'react-router-dom';
 import {
     Button,
     Dialog,
@@ -11,20 +12,34 @@ import {
 } from "@material-ui/core";
 
 import authUserContext from "../../context/AuthUserContext";
+import SocketContext from "../../context/SocketContext";
 
 export default function FormDialog() {
+    const history = useHistory();
     const { 
         user
     } = useContext(authUserContext);
+    const socket = useContext(SocketContext).socket;
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
+        socket.emit('add-play-now', user);
         setOpen(true);
     };
 
     const handleClose = () => {
+        socket.emit('remove-play-now', user);
         setOpen(false);
     };
+
+    useEffect(() => {
+        socket.on('new-game-id', (roomId) =>{
+            console.log('new-game-id ' + roomId);
+            //setOpen(false);
+            history.push(`/game/${roomId}`);
+        });
+
+    }, []);
 
     return (
         <div>
