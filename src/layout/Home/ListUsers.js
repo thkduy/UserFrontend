@@ -1,6 +1,5 @@
 import {io} from "socket.io-client";
 import {React, useContext, useEffect, useState} from "react";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
@@ -9,27 +8,23 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import {Typography} from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
 import SocketContext from "../../context/SocketContext";
 
 export default function ListUsers(){
 
   const socketContext = useContext(SocketContext);
   const socket = socketContext.socket;
-  console.log("use socket "+ socket);
 
-  let [listOnlineUser, setListOnlineUser] = useState([]);
+  let [users, setUsers] = useState([]);
 
   useEffect( () => {
-    socket.on('requireIdUser', () => {
-      socket.emit('requireIdUser', localStorage.getItem("user"));
+    socket.on('list-online', (listUsers) => {
+      // let arrListOnline = Object.keys(receivedListOnline).map((key) => receivedListOnline[key]);
+      console.log('list-online ' + JSON.stringify(listUsers));
+      setUsers(listUsers);
+
     });
 
-    socket.on('sendListOnline', (receivedListOnline) => {
-      let arrListOnline = Object.keys(receivedListOnline).map((key) => receivedListOnline[key]);
-      console.log(arrListOnline);
-      setListOnlineUser(arrListOnline);
-    });
   }, []);
 
 
@@ -48,7 +43,7 @@ export default function ListUsers(){
               </TableHead>
               <TableBody>
                 <>
-                  {listOnlineUser.map((user, index) => (
+                  {users.map((user, index) => (
                     <TableRow key={index}>
                       <TableCell width="25%">
                         <Typography variant="h5">
@@ -56,10 +51,10 @@ export default function ListUsers(){
                         </Typography>
                       </TableCell>
                       <TableCell width="75%">
-                        <Grid container spacing={2} alignItems="center">
-                          <Grid item>
-                            <Avatar />
-                          </Grid>
+                        <Grid container spacing={1} alignItems="center">
+                          {/*<Grid item>*/}
+                          {/*  <Avatar />*/}
+                          {/*</Grid>*/}
                           <Grid item>
                             <Typography variant="h5">
                               {user.name}

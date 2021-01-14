@@ -71,7 +71,9 @@ export default function GameContainer(){
 
       }
       setResult(room.currentResultStatus);
-      setMessages(room.messages);
+      setMessages(room.messages.map(value => {
+        return {name: value.owner.name, content: value.content}
+      }));
 
       setPlayer1(room.player1);
       if (room.player1) {
@@ -117,6 +119,10 @@ export default function GameContainer(){
       console.log('end-game ' + JSON.stringify(gameResult));
     });
 
+    socket.on('messages', messages => {
+      setMessages(messages);
+    })
+
   },[]);
 
   const handleGoingToPlayClick = (playerNum) => {
@@ -154,6 +160,9 @@ export default function GameContainer(){
 
     }
   }
+  const emitMessage = (curMessage) => {
+    socket.emit('message', roomId, user, curMessage);
+  }
 
   return (
     <GameContext.Provider value={{
@@ -163,7 +172,9 @@ export default function GameContainer(){
       handleAcceptStartNewMatchClicked: handleAcceptStartNewMatchClicked,
       sessionPlayer: sessionPlayerState,
       gameResult: result,
-      handleStandUp: handleStandUp
+      handleStandUp: handleStandUp,
+      emitMessage: emitMessage,
+      messages: messages
     }}>
       <Container>
         <Grid container spacing={0}>

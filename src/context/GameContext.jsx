@@ -7,7 +7,9 @@ const GameContext = createContext({
     handleAcceptStartNewMatchClicked: null,
     sessionPlayer: null,
     gameResult: -1,
-    handleStandUp: null
+    handleStandUp: null,
+    messages: [],
+    emitMessage: null,
 });
 
 export default GameContext;

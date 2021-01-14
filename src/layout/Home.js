@@ -14,6 +14,7 @@ import ButtonDialogPlayNow from "./Home/DialogPlayNow";
 
 import authUserContext from '../context/AuthUserContext';
 import SocketContext from "../context/SocketContext";
+import Container from "@material-ui/core/Container";
 
 
 export default function Home() {

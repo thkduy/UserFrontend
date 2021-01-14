@@ -11,6 +11,7 @@ import SenderContainer from "./SenderContainer";
 import MessagesContainer from "./MessagesContainer";
 import MessageComponent from "./MessageComponent";
 import {useParams} from "react-router-dom";
+import GameContext from "../../context/GameContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,34 +37,40 @@ const useStyles = makeStyles((theme) => ({
 export default function MessageBoard(){
   const classes = useStyles();
 
-  const socketContext = useContext(SocketContext);
-  const socket = socketContext.socket;
-  const user = JSON.parse(localStorage.getItem("user"));
+  // const socketContext = useContext(SocketContext);
+  // const socket = socketContext.socket;
+  // const user = JSON.parse(localStorage.getItem("user"));
 
   const {roomId} = useParams();
 
-  const [listMessage, setListMessage] = useState([]);
-  useEffect(() => {
+  //const [listMessage, setListMessage] = useState([]);
 
-  }, []);
-
-
+  const gameContext = useContext(GameContext);
+  const listMessage = gameContext.messages;
+  console.log(listMessage);
   const [curMessage, setCurMessage] = useState("");
-
   const handleBtnSendClick = (event) => {
     event.preventDefault();
-    if (curMessage !== ""){
-      //handle here
-      socket.emit("userSendMessage", {roomId: roomId, message: {name: user.name, content: curMessage}});
+    if (curMessage != "") {
+      gameContext.emitMessage(curMessage);
       setCurMessage("");
     }
   }
 
-  useEffect(()=> {
-    socket.on("serverBroadcastMessages", (newListMessages) => {
-      setListMessage(newListMessages);
-    });
-  }, []);
+  // const handleBtnSendClick = (event) => {
+  //   event.preventDefault();
+  //   if (curMessage !== ""){
+  //     //handle here
+  //     socket.emit("userSendMessage", {roomId: roomId, message: {name: user.name, content: curMessage}});
+  //     setCurMessage("");
+  //   }
+  // }
+  //
+  // useEffect(()=> {
+  //   socket.on("serverBroadcastMessages", (newListMessages) => {
+  //     setListMessage(newListMessages);
+  //   });
+  // }, []);
 
   return (
   <div className={classes.root} >
