@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 import {
   Box,
   TextField,
-  Grid,
+  Container,
   Button,
   IconButton,
   Input,
@@ -64,123 +64,65 @@ export default function Register() {
 
   };
 
-  return (
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      justify="center"
-    >
-      <Grid item>
-        <Paper elevation={3}>
-          <Box style={{width: 300}}>
-            <Grid
-              container
-              spacing={1}
-              justify="center"
-              style={{marginTop: 10}}
-            >
-              <Grid item>
-                <Typography variant="h4">
-                  Register
-                </Typography>
-              </Grid>
-            </Grid>
-            {error.length > 0 ? <Alert severity="error">{error}</Alert> : null}
-            <Grid
-              container
-              spacing={1}
-              alignItems="flex-end"
-              justify="center"
-            >
-              <Grid item>
-                <EmailIcon/>
-              </Grid>
-              <Grid item>
-                <TextField
-                  label="Email"
-                  value={values.email}
-                  style={{width: 250}}
-                  onChange={handleChange('email')}
-                />
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={1}
-              alignItems="flex-end"
-              justify="center"
-            >
-              <Grid item>
-                <FaceIcon/>
-              </Grid>
-              <Grid item>
-                <TextField
-                  label="Name"
-                  value={values.name}
-                  style={{width: 250}}
-                  onChange={handleChange('name')}
-                />
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={1}
-              alignItems="flex-end"
-              justify="center"
-            >
-              <Grid item>
-                <LockIcon/>
-              </Grid>
-              <Grid item>
-                <FormControl>
-                  <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                  <Input
-                    id="standard-adornment-password"
-                    type={values.showPassword ? 'text' : 'password'}
-                    value={values.password}
-                    onChange={handleChange('password')}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                        >
-                          {values.showPassword ? <Visibility/> : <VisibilityOff/>}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={1}
-              alignItems="flex-end"
-              justify="center"
-              style={{marginTop: 20, marginBottom: 10}}
-            >
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSignup}
-                  disabled={
-                    !values.email.trim().length > 0 ||
-                    !values.name.trim().length > 0 ||
-                    !values.password.trim().length > 0
-                  }
-                >
-                  Register
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        </Paper>
-      </Grid>
-    </Grid>
+  return(
+    <Container maxWidth="sm" component={Paper}>
+      <Box display="flex" flexDirection="column" alignItems="center" pt={2} pb={2}>
+        <Typography variant="h4">Register</Typography>
+        {error.length > 0 ? <Alert severity="error">{error}</Alert> : null}
+        <Box display="flex" flexDirection="row" alignItems="flex-end" width="100%" mt={1}>
+          <EmailIcon style={{ marginBottom: 5, marginRight: 5 }} />
+          <TextField
+            label="Email"
+            value={values.email}
+            onChange={handleChange('email')}
+            fullWidth
+          />
+        </Box>
+        <Box display="flex" flexDirection="row" alignItems="flex-end" width="100%" mt={1}>
+          <FaceIcon style={{ marginBottom: 5, marginRight: 5 }} />
+          <TextField
+            label="Name"
+            value={values.name}
+            onChange={handleChange('name')}
+            fullWidth
+          />
+        </Box>
+        <Box display="flex" flexDirection="row" alignItems="flex-end" width="100%" mt={1}>
+          <LockIcon style={{ marginBottom: 5, marginRight: 5 }} />
+          <FormControl fullWidth>
+            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+            <Input
+              type={values.showPassword ? 'text' : 'password'}
+              value={values.password}
+              onChange={handleChange('password')}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
+        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSignup}
+          disabled={
+            !values.email.trim().length > 0 ||
+            !values.name.trim().length > 0 ||
+            !values.password.trim().length > 0
+          }
+          style={{ width: '50%', marginLeft: 25, marginRight: 25, marginTop:30 }}
+        >
+          Register
+        </Button>
+      </Box>
+    </Container>
   );
 }

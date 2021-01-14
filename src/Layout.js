@@ -29,7 +29,9 @@ export default function Layout() {
         <div>
             <MenuAppBar />
             <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/">
+                    {isAuthenticated ? <Home/> : <Redirect to={{ pathname: "/login", state: { from: '/' }}}/>}
+                </Route>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/game/:roomId">

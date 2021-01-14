@@ -5,7 +5,6 @@ import {
   TextField,
   Box,
   Grid,
-  Typography
 } from "@material-ui/core";
 
 import ListUsers from "./Home/ListUsers";
@@ -56,40 +55,30 @@ export default function Home() {
   }
 
   return (
-    <>
-      { data.isAuthenticated ?
-        <>
-          <Container maxWidth="lg">
-            <Box display="flex" flexDirection="row" justifyContent="space-between" style={{ marginBottom: 20 }}>
-              <Box display="flex">
-                <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
-                  New game
+    <Container maxWidth="lg">
+      <Box display="flex" flexDirection="row" justifyContent="space-between" style={{ marginBottom: 20 }}>
+        <Box display="flex">
+          <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
+            New game
                   </Button>
-                <ButtonDialogPlayNow />
-              </Box>
+          <ButtonDialogPlayNow />
+        </Box>
 
-              <Box display="flex" alignItems="center">
-                <TextField size="small" label="Enter game code" value={roomId} variant="outlined" onChange={handleChange} />
-                <Button variant="contained" color="secondary" onClick={handleJoinGame} style={{ marginLeft: 10 }}>
-                  Join game
+        <Box display="flex" alignItems="center">
+          <TextField size="small" label="Enter game code" value={roomId} variant="outlined" onChange={handleChange} />
+          <Button variant="contained" color="secondary" onClick={handleJoinGame} style={{ marginLeft: 10 }}>
+            Join game
                   </Button>
-              </Box>
-            </Box>
-            <Grid container spacing={1}>
-              <Grid item xs={9}>
-                <ListRoom />
-              </Grid>
-              <Grid item xs={3}>
-                <ListUsers />
-              </Grid>
-            </Grid>
-          </Container>
-        </>
-        :
-        <Typography variant="h1">
-          Welcome to Caro Online !
-          </Typography>
-      }
-    </>
+        </Box>
+      </Box>
+      <Grid container spacing={1}>
+        <Grid item xs={9}>
+          <ListRoom />
+        </Grid>
+        <Grid item xs={3}>
+          <ListUsers />
+        </Grid>
+      </Grid>
+    </Container>
   )
 }
