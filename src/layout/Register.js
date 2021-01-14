@@ -68,7 +68,7 @@ export default function Register() {
     <Container maxWidth="sm" component={Paper}>
       <Box display="flex" flexDirection="column" alignItems="center" pt={2} pb={2}>
         <Typography variant="h4">Register</Typography>
-        {error.length > 0 ? <Alert severity="error">{error}</Alert> : null}
+        {error.length > 0 ? <Alert severity="error" style={{width:'95%'}}>{error}</Alert> : null}
         <Box display="flex" flexDirection="row" alignItems="flex-end" width="100%" mt={1}>
           <EmailIcon style={{ marginBottom: 5, marginRight: 5 }} />
           <TextField
