@@ -77,11 +77,11 @@ export default function FormDialog({ roomid }) {
                     <Typography variant="h5" style={{fontWeight: 'bold'}}>Create new game</Typography>
                 </DialogTitle>
                 <DialogContent>
-                    <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={2}>
-                        <Typography variant="h6">Step time (sec) </Typography>
-                        <TextField type="number" size="small" value={stepTime} defaultValue={45} InputProps={{ inputProps: { min: 15, max: 60 } }}
-                        variant="outlined" style={{width: 80}} onChange={handleChangeStepTime}/>
-                    </Box>
+                    {/*<Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={2}>*/}
+                    {/*    <Typography variant="h6">Step time (sec) </Typography>*/}
+                    {/*    <TextField type="number" size="small" value={stepTime} defaultValue={45} InputProps={{ inputProps: { min: 15, max: 60 } }}*/}
+                    {/*    variant="outlined" style={{width: 80}} onChange={handleChangeStepTime}/>*/}
+                    {/*</Box>*/}
                     
                     <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" style={{marginBottom:10}}>
                         <Typography variant="h6" >Password</Typography>
