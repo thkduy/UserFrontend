@@ -97,28 +97,35 @@ export default function GameInfo(props){
             title="Player 1"
             playerNumber="player1"
             playerName={props.player1Name ? props.player1Name : null}
-            time = " "
+            time="00 : 45"
             canStandUp = {(gameContext.sessionPlayer === 'player1' && gameContext.gameResult !== -1)}
           />
           <PlayerContainer
             title="Player 2"
             playerNumber="player2"
             playerName={props.player2Name ? props.player2Name : null}
-            time = " "
+            time="00 : 45"
             canStandUp = {(gameContext.sessionPlayer === 'player2' && gameContext.gameResult !== -1)}/>
         </div>
-        {
-          gameContext.sessionPlayer && gameContext.gameResult == -1  ?
-            <div className={classes.monitors}>
-            <Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} onClick={handleDrawRequestClicked}>
-              Request draw
-            </Button>
-            <Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} onClick={() => gameContext.surrender()} >
-              Surrender
-            </Button>
-          </div>
-            : <> </>
-        }
+        <div className={classes.monitors}>
+          <Button
+            disabled={!(gameContext.sessionPlayer && gameContext.gameResult == -1)}
+            variant="outlined"
+            color="primary"
+            style={{height: "30px", textTransform: 'none'}}
+            onClick={handleDrawRequestClicked}>
+            Request draw
+          </Button>
+          <Button
+            disabled={!(gameContext.sessionPlayer && gameContext.gameResult == -1)}
+            variant="outlined"
+            color="primary"
+            style={{height: "30px", textTransform: 'none'}}
+            onClick={() => gameContext.surrender()}
+            >
+            Surrender
+          </Button>
+        </div>
         {
           gameContext.drawStatus === 1 ?
             <div className={classes.request}>

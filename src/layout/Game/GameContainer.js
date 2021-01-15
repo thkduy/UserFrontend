@@ -39,7 +39,7 @@ export default function GameContainer(){
   const [player2, setPlayer2] = useState(null);
 
   const [sessionPlayerState, setSessionPlayerState] = useState(null);
-  let sessionPlayer = null;
+
 
   const[result, setResult] = useState(-1);
 
@@ -52,6 +52,7 @@ export default function GameContainer(){
   }
 
   useEffect(() => {
+    let sessionPlayer = null;
     socket.emit('join-game', roomId, user, (error) => {
       console.log('join-game ' + roomId);
       if(error) {
@@ -91,15 +92,15 @@ export default function GameContainer(){
       }
       setSessionPlayerState(sessionPlayer);
 
-      if ((sessionPlayer || sessionPlayerState) === ('player' + room.playTurn) && room.player1Status && room.player2Status) {
+      if ((sessionPlayer) === ('player' + room.playTurn) && room.player1Status && room.player2Status) {
         setBoardEnabled(true);
       }
       else {
         setBoardEnabled(false);
       }
 
-      if ((sessionPlayer || sessionPlayerState) && room.drawRequests && room.drawRequests.length > 0){
-        if (room.drawRequests[0] === (sessionPlayer || sessionPlayerState)) {
+      if ((sessionPlayer) && room.drawRequests && room.drawRequests.length > 0){
+        if (room.drawRequests[0] === (sessionPlayer)) {
           setDrawStatus(0);
         }
         else setDrawStatus(1);
@@ -190,6 +191,19 @@ export default function GameContainer(){
     }
   }
 
+  const mappingRoomResultToAnnotation = {
+    "-2": <></>,
+    "-1": <></>,
+    "0": sessionPlayerState ?
+      <ResultGameDialog message={'Draw'}  /> : <AnnotationDialog message={'Draw'} />,
+    "1": sessionPlayerState ?
+      <ResultGameDialog message={'Player #1 won'}  /> : <AnnotationDialog message={'Player #1 won'} />,
+    "2": sessionPlayerState ?
+      <ResultGameDialog message={'Player #2 won'}  /> : <AnnotationDialog message={'Player #2 won'} />,
+
+  }
+
+
   return (
     <GameContext.Provider value={{
       handleGoingToPlayClick: handleGoingToPlayClick,
@@ -209,21 +223,8 @@ export default function GameContainer(){
         <Grid container spacing={0}>
           <Grid item xs={8} style={{display: 'flex', justifyContent: 'center', backgroundColor: "#FFEAA7", position: 'relative'}}>
             <GameBoard boardState={boardState}/>
-            {result !== -1 && result !== 0?
-              (sessionPlayerState ?
-                <ResultGameDialog message={'Player #' + result + ' won'}  />
-                : <AnnotationDialog message={'Player #' + result + ' won'} />
-              )
-              :
-              <>{
-                result === 0?
-                  (sessionPlayerState ?
-                      <ResultGameDialog message={'Draw'}  />
-                      : <AnnotationDialog message={'Draw'} />
-                  )
-                  : <> </>
-              } </>
-
+            {
+              mappingRoomResultToAnnotation[result]
             }
           </Grid>
           <Grid item xs ={4}>
