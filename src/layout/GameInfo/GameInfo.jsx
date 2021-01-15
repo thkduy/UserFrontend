@@ -97,14 +97,16 @@ export default function GameInfo(props){
             title="Player 1"
             playerNumber="player1"
             playerName={props.player1Name ? props.player1Name : null}
-            time="00 : 45"
+            countDown={'player' + gameContext.playTurn === 'player1'}
+            time={45}
             canStandUp = {(gameContext.sessionPlayer === 'player1' && gameContext.gameResult !== -1)}
           />
           <PlayerContainer
             title="Player 2"
             playerNumber="player2"
             playerName={props.player2Name ? props.player2Name : null}
-            time="00 : 45"
+            countDown={'player' + gameContext.playTurn === 'player2'}
+            time={45}
             canStandUp = {(gameContext.sessionPlayer === 'player2' && gameContext.gameResult !== -1)}/>
         </div>
         <div className={classes.monitors}>

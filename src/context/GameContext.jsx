@@ -11,7 +11,8 @@ const GameContext = createContext({
     messages: [],
     emitMessage: null,
     surrender: null,
-    drawStatus: null
+    drawStatus: null,
+    playTurn: 0,
 });
 
 export default GameContext;

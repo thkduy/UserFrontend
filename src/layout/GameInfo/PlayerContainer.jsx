@@ -73,7 +73,7 @@ export default function PlayerContainer(props){
           <div>
             <div className={classes.playerName}>
 
-              <div style={gameContext.sessionPlayer === props.playerNumber ? {fontWeight: 'bold'} : {}}>
+              <div style={props.countDown ? {fontWeight: 'bold'} : {}}>
                 {props.playerName}
               </div>
               {

@@ -55,15 +55,23 @@ export default function ResultGameDialog(props){
       <div style={{marginBottom: '15px'}}>
         {props.message}
       </div>
-      <Button
-        variant="outlined"
-        size="medium"
-        className={classes.button}
-        onClick={handleClick}
-        disabled={disable}
-      >
-        {!disable ? 'Next match' : 'Waiting for partner...'}
-      </Button>
+      {
+        props.isPlayer ? <Button
+          variant="outlined"
+          size="medium"
+          className={classes.button}
+          onClick={handleClick}
+          disabled={disable}
+        >
+          {!disable ? 'Next match' : 'Waiting for partner...'}
+        </Button>
+        :
+        <div >
+          Waiting for next match...
+        </div>
+
+      }
+
     </div>
   )
 }

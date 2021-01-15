@@ -8,7 +8,6 @@ import GameBoard from "../GameBoard/GameBoard";
 import GameInfo from "../GameInfo/GameInfo";
 import authUserContext from "../../context/AuthUserContext";
 import GameContext from "../../context/GameContext";
-import Button from "@material-ui/core/Button";
 import ResultGameDialog from "./ResultGameDialog";
 import AnnotationDialog from "./AnnotationDialog";
 
@@ -45,6 +44,7 @@ export default function GameContainer(){
 
   const [messages, setMessages] = useState([]);
   const [drawStatus, setDrawStatus] = useState(null); //0: me //1: partner
+  const [playTurn, setPlayTurn] = useState(0);
 
   const handleLeave = () => {
     socket.emit('leave-game');
@@ -78,19 +78,18 @@ export default function GameContainer(){
       }));
 
       setPlayer1(room.player1);
-      if (room.player1) {
-        if (room.player1._id === user._id) {
-          sessionPlayer = 'player1';
-        }
-      }
-
       setPlayer2(room.player2);
-      if (room.player2){
-        if (room.player2._id === user._id) {
+      if (room.player1 && room.player1._id === user._id) {
+          sessionPlayer = 'player1';
+      }
+      else if (room.player2 && room.player2._id === user._id){
           sessionPlayer = 'player2';
-        }
+      }
+      else {
+        sessionPlayer = null;
       }
       setSessionPlayerState(sessionPlayer);
+      setPlayTurn(room.playTurn);
 
       if ((sessionPlayer) === ('player' + room.playTurn) && room.player1Status && room.player2Status) {
         setBoardEnabled(true);
@@ -191,15 +190,14 @@ export default function GameContainer(){
     }
   }
 
+
+
   const mappingRoomResultToAnnotation = {
-    "-2": <></>,
+    "-2": <AnnotationDialog message= {sessionPlayerState ? 'Waiting for new opponent...' : 'Please choose your chair'}/> ,
     "-1": <></>,
-    "0": sessionPlayerState ?
-      <ResultGameDialog message={'Draw'}  /> : <AnnotationDialog message={'Draw'} />,
-    "1": sessionPlayerState ?
-      <ResultGameDialog message={'Player #1 won'}  /> : <AnnotationDialog message={'Player #1 won'} />,
-    "2": sessionPlayerState ?
-      <ResultGameDialog message={'Player #2 won'}  /> : <AnnotationDialog message={'Player #2 won'} />,
+    "0": <ResultGameDialog message={'Draw'} isPlayer={sessionPlayerState != null}/>,
+    "1": <ResultGameDialog message={'Player #1 won'} isPlayer={sessionPlayerState != null} />,
+    "2": <ResultGameDialog message={'Player #2 won'} isPlayer={sessionPlayerState != null} />,
 
   }
 
@@ -217,6 +215,7 @@ export default function GameContainer(){
       messages: messages,
       surrender: surrender,
       drawStatus: drawStatus,
+      playTurn: playTurn,
 
     }}>
       <Container>

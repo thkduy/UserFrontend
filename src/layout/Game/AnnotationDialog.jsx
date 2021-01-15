@@ -29,11 +29,8 @@ export default function ResultGameDialog(props){
 
   return (
     <div className={classes.root}>
-      <div style={{marginBottom: '15px'}}>
-        {props.message}
-      </div>
       <div >
-        Waiting for next match ...
+        {props.message}
       </div>
     </div>
   )
