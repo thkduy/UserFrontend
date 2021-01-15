@@ -4,6 +4,7 @@ import GameContext from "../../context/GameContext";
 import Button from "@material-ui/core/Button";
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from "@material-ui/core/IconButton";
+import SecondCountDown from "../../components/SecondCountDown";
 
 const useStyles = makeStyles({
   player: {
@@ -106,10 +107,13 @@ export default function PlayerContainer(props){
             {`#${props.playerNumber}`}
           </div>
       }
+      {
+        props.countDown ?
+        <div className={classes.playerTime}>
+          <SecondCountDown second={props.time} />
+        </div> : <></>
+      }
 
-      <div className={classes.playerTime}>
-        {props.time}
-      </div>
     </div>
 
   )
