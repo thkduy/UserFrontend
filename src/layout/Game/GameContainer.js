@@ -44,6 +44,7 @@ export default function GameContainer(){
   const[result, setResult] = useState(-1);
 
   const [messages, setMessages] = useState([]);
+  const [drawStatus, setDrawStatus] = useState(null); //0: me //1: partner
 
   const handleLeave = () => {
     socket.emit('leave-game');
@@ -97,6 +98,15 @@ export default function GameContainer(){
         setBoardEnabled(false);
       }
 
+      if ((sessionPlayer || sessionPlayerState) && room.drawRequests && room.drawRequests.length > 0){
+        if (room.drawRequests[0] === (sessionPlayer || sessionPlayerState)) {
+          setDrawStatus(0);
+        }
+        else setDrawStatus(1);
+      }
+      else setDrawStatus(null);
+
+
     });
 
     socket.on('ask-for-starting-new-match', (roomId) => {
@@ -122,6 +132,14 @@ export default function GameContainer(){
     socket.on('messages', messages => {
       setMessages(messages);
     })
+
+    return () => {
+      socket.off('room-info');
+      socket.off('ask-for-starting-new-match');
+      socket.off('start-new-match');
+      socket.off('end-game');
+      socket.off('messages');
+    }
 
   },[]);
 
@@ -183,18 +201,29 @@ export default function GameContainer(){
       handleStandUp: handleStandUp,
       emitMessage: emitMessage,
       messages: messages,
-      surrender: surrender
+      surrender: surrender,
+      drawStatus: drawStatus,
+
     }}>
       <Container>
         <Grid container spacing={0}>
           <Grid item xs={8} style={{display: 'flex', justifyContent: 'center', backgroundColor: "#FFEAA7", position: 'relative'}}>
             <GameBoard boardState={boardState}/>
-            {result !== -1 ?
+            {result !== -1 && result !== 0?
               (sessionPlayerState ?
                 <ResultGameDialog message={'Player #' + result + ' won'}  />
                 : <AnnotationDialog message={'Player #' + result + ' won'} />
               )
-              : <> </>
+              :
+              <>{
+                result === 0?
+                  (sessionPlayerState ?
+                      <ResultGameDialog message={'Draw'}  />
+                      : <AnnotationDialog message={'Draw'} />
+                  )
+                  : <> </>
+              } </>
+
             }
           </Grid>
           <Grid item xs ={4}>

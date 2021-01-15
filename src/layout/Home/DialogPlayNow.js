@@ -32,15 +32,6 @@ export default function FormDialog() {
         setOpen(false);
     };
 
-    useEffect(() => {
-        socket.on('new-game-id', (roomId) =>{
-            console.log('new-game-id ' + roomId);
-            //setOpen(false);
-            history.push(`/game/${roomId}`);
-        });
-
-    }, []);
-
     return (
         <div>
             <Button variant="contained" color="secondary" onClick={handleClickOpen} style={{ marginLeft: 10 }}>

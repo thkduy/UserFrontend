@@ -50,9 +50,10 @@ export default function StickyHeadTable() {
       if(error) {
         alert(error);
       }
-      else{
-        history.push(`/game/${roomId}`);
+      else {
+        history.push(`game/${roomId}`)
       }
+
     });
   }
 

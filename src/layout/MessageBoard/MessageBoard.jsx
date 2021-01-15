@@ -47,7 +47,6 @@ export default function MessageBoard(){
 
   const gameContext = useContext(GameContext);
   const listMessage = gameContext.messages;
-  console.log(listMessage);
   const [curMessage, setCurMessage] = useState("");
   const handleBtnSendClick = (event) => {
     event.preventDefault();

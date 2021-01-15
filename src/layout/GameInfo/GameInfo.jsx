@@ -5,6 +5,8 @@ import MessageBoard from "../MessageBoard/MessageBoard";
 import Button from "@material-ui/core/Button";
 import PlayerContainer from "./PlayerContainer";
 import GameContext from "../../context/GameContext";
+import SocketContext from "../../context/SocketContext";
+import {useParams} from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -41,13 +43,47 @@ const useStyles = makeStyles({
       fontSize: "14px",
       margin: "5px"
     }
+  },
+  request: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: '20px'
+  },
+  button: {
+    backgroundColor: '#1F2930',
+    '&:hover': {
+      backgroundColor: '#000000',
+    },
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    textTransform: 'none',
+    border: '2px solid #5C5A46',
+    borderRadius: '10px',
+    fontSize: "12px"
+
   }
 })
 
 export default function GameInfo(props){
   const gameContext = useContext(GameContext);
+  const socketContext = useContext(SocketContext);
+  const socket = socketContext.socket;
 
   const classes = useStyles();
+
+  const {roomId} = useParams();
+
+  const handleDrawRequestClicked = () => {
+    if (gameContext.sessionPlayer) {
+      socket.emit('draw-request', roomId, gameContext.sessionPlayer);
+    }
+  }
+  const handRejectRequestClicked = () => {
+    if (gameContext.sessionPlayer) {
+      socket.emit('reject-draw-request', roomId);
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -72,19 +108,58 @@ export default function GameInfo(props){
             canStandUp = {(gameContext.sessionPlayer === 'player2' && gameContext.gameResult !== -1)}/>
         </div>
         {
-          gameContext.sessionPlayer && gameContext.gameResult == -1 && gameContext.boardEnabled ?
+          gameContext.sessionPlayer && gameContext.gameResult == -1  ?
             <div className={classes.monitors}>
-            {/*<Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} >*/}
-            {/*  Xin Hòa*/}
-            {/*</Button>*/}
+            <Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} onClick={handleDrawRequestClicked}>
+              Request draw
+            </Button>
             <Button variant="outlined" color="primary" style={{height: "30px", textTransform: 'none'}} onClick={() => gameContext.surrender()} >
               Surrender
             </Button>
           </div>
             : <> </>
         }
+        {
+          gameContext.drawStatus === 1 ?
+            <div className={classes.request}>
+              <div style={{fontSize: "13px", marginRight: "10px", fontWeight: 'bold', color: ""}}>
+                Partner sent a draw request
+              </div>
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.button}
+                style={{marginRight: "10px"}}
+                onClick={handleDrawRequestClicked}
+              >
+                Accept
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.button}
+                onClick={handRejectRequestClicked}
+
+              >
+                No
+              </Button>
+
+            </div> :
+              <>
+                {
+                  gameContext.drawStatus === 0 ?
+                    <div className={classes.request} style={{fontSize: "13px", marginRight: "10px", fontWeight: 'bold', color: ""}}>
+                      Draw request sent
+                    </div> : <> </>
+                }
+            </>
+
+
+        }
+
 
       </div>
+
       <MessageBoard />
     </div>
   )

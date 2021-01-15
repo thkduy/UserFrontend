@@ -18,10 +18,17 @@ import Container from "@material-ui/core/Container";
 
 export default function Home() {
   const history = useHistory();
+
   const socketContext = useContext(SocketContext);
   const socket = socketContext.socket;
   const data = useContext(authUserContext);
   const user = data.user;
+
+  useEffect(() => {
+    if (!data.isAuthenticated) {
+      history.push('/login')
+    }
+  })
 
   const [roomId, setRoomId] = useState('');
 
@@ -36,9 +43,13 @@ export default function Home() {
 
   useEffect(() => {
     socket.on('new-game-id', (roomId) =>{
-      console.log(roomId);
+      console.log('new-game-id' + roomId);
       history.push(`/game/${roomId}`);
     });
+
+    return () => {
+      socket.off('new-game-id');
+    }
   }, []);
 
   const handleJoinGame = () => {

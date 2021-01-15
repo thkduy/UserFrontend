@@ -9,22 +9,31 @@ import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import {Typography} from "@material-ui/core";
 import SocketContext from "../../context/SocketContext";
+import AuthUserContext from "../../context/AuthUserContext";
 
 export default function ListUsers(){
 
   const socketContext = useContext(SocketContext);
   const socket = socketContext.socket;
 
+  const auth = useContext(AuthUserContext);
+
   let [users, setUsers] = useState([]);
 
   useEffect( () => {
+    // console.log('listuser ON mount')
+    socket.emit('required-list-online');
+    socket.emit('new-user-online', auth.user);
+    // console.log('socket emitted');
     socket.on('list-online', (listUsers) => {
       // let arrListOnline = Object.keys(receivedListOnline).map((key) => receivedListOnline[key]);
       console.log('list-online ' + JSON.stringify(listUsers));
       setUsers(listUsers);
-
     });
-
+    return () => {
+      // console.log('listuser UN mount');
+      socket.off('list-online');
+    }
   }, []);
 
 
