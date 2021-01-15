@@ -10,6 +10,7 @@ import {
 import ListUsers from "./Home/ListUsers";
 import ListRoom from "./Home/ListRoom";
 import ButtonDialogPlayNow from "./Home/DialogPlayNow";
+import ButtonDialogNewGame from "./Home/DialogNewGame";
 
 import authUserContext from '../context/AuthUserContext';
 import SocketContext from "../context/SocketContext";
@@ -71,7 +72,8 @@ export default function Home() {
         <Box display="flex">
           <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
             New game
-                  </Button>
+          </Button>
+          <ButtonDialogNewGame />
           <ButtonDialogPlayNow />
         </Box>
 
@@ -79,7 +81,7 @@ export default function Home() {
           <TextField size="small" label="Enter game code" value={roomId} variant="outlined" onChange={handleChange} />
           <Button variant="contained" color="secondary" onClick={handleJoinGame} style={{ marginLeft: 10 }}>
             Join game
-                  </Button>
+          </Button>
         </Box>
       </Box>
       <Grid container spacing={1}>

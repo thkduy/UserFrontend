@@ -62,7 +62,7 @@ export default function Profile() {
             }
         }
         fetchData();
-    }, [token]);
+    }, [token, checkAuthenticated, signIn, setNewToken]);
     return (
         <>
             {user ?
