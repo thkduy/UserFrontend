@@ -113,7 +113,7 @@ export default function GameContainer(){
       console.log('ask-for-starting-new-match');
       if (sessionPlayer) {
         console.log('emit accept-start-new-match ' + roomId + ' ' + sessionPlayer);
-        socket.emit('accept-start-new-match', roomId, sessionPlayer);
+        socket.emit('accept-start-new-match ', roomId, sessionPlayer);
       }
     });
 
@@ -190,17 +190,13 @@ export default function GameContainer(){
     }
   }
 
-
-
   const mappingRoomResultToAnnotation = {
     "-2": <AnnotationDialog message= {sessionPlayerState ? 'Waiting for new opponent...' : 'Please choose your chair'}/> ,
     "-1": <></>,
     "0": <ResultGameDialog message={'Draw'} isPlayer={sessionPlayerState != null}/>,
     "1": <ResultGameDialog message={'Player #1 won'} isPlayer={sessionPlayerState != null} />,
     "2": <ResultGameDialog message={'Player #2 won'} isPlayer={sessionPlayerState != null} />,
-
   }
-
 
   return (
     <GameContext.Provider value={{
