@@ -53,12 +53,12 @@ export default function GameContainer(){
 
   useEffect(() => {
     let sessionPlayer = null;
-    socket.emit('join-game', roomId, user, (error) => {
-      console.log('join-game ' + roomId);
-      if(error) {
-        alert(error);
-      }
 
+    socket.emit('join-game-on-path', roomId, user, '', (error) => {
+      console.log('join-game-on-path ' + roomId);
+      if(error) {
+        history.push("/");
+      }
     });
     socket.on('room-info', (room) => {
       console.log('room-info ' + JSON.stringify(room))
@@ -113,7 +113,7 @@ export default function GameContainer(){
       console.log('ask-for-starting-new-match');
       if (sessionPlayer) {
         console.log('emit accept-start-new-match ' + roomId + ' ' + sessionPlayer);
-        socket.emit('accept-start-new-match ', roomId, sessionPlayer);
+        socket.emit('accept-start-new-match', roomId, sessionPlayer);
       }
     });
 

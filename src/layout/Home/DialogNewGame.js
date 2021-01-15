@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
 import {
     Button,
     TextField,
@@ -12,12 +12,23 @@ import {
     Select,
     Input
 } from "@material-ui/core";
+import AuthUserContext from "../../context/AuthUserContext";
+import SocketContext from "../../context/SocketContext";
 
 export default function FormDialog({ roomid }) {
     const [open, setOpen] = useState(false);
     const [isPublic, setIsPublic] = useState(true);
-    const [stepTime, setStepTime] = useState(2);
+    const [stepTime, setStepTime] = useState(45);
     const [pass, setPass] = useState('');
+
+    const authContext = useContext(AuthUserContext);
+    const socket = useContext(SocketContext).socket;
+
+    // const handleCreateNewGame = () => {
+    //     if (authContext.isAuthenticated) {
+    //         socket.emit('create-game', authContext.user, pass);
+    //     }
+    // }
 
     const handleChangeStepTime = (event) => {
         setStepTime(event.target.value);
@@ -34,7 +45,7 @@ export default function FormDialog({ roomid }) {
     const handleClickOpen = () => {
         setIsPublic(true);
         setPass('');
-        setStepTime(2);
+        setStepTime(45);
         setOpen(true);
     };
 
@@ -44,11 +55,9 @@ export default function FormDialog({ roomid }) {
     };
 
     const handleCreate = () => {
-        //xu ly create new game
-        console.log(stepTime);
-        if(isPublic)
-            console.log('Public no pass');
-        else console.log('Private - pass:' + pass);
+        if (authContext.isAuthenticated) {
+            socket.emit('create-game', authContext.user, pass);
+        }
         //dong dialog
         setOpen(false);
     }
@@ -65,30 +74,31 @@ export default function FormDialog({ roomid }) {
                 onClose={handleClose}
             >
                 <DialogTitle>
-                    <Typography variant="h4">Create new game</Typography>   
+                    <Typography variant="h5" style={{fontWeight: 'bold'}}>Create new game</Typography>
                 </DialogTitle>
                 <DialogContent>
                     <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" mb={2}>
-                        <Typography variant="h5">Step time (min) </Typography>
-                        <TextField type="number" size="small" value={stepTime} defaultValue={2} InputProps={{ inputProps: { min: 2, max: 10 } }}
-                        variant="outlined" style={{width:60}} onChange={handleChangeStepTime}/>
+                        <Typography variant="h6">Step time (sec) </Typography>
+                        <TextField type="number" size="small" value={stepTime} defaultValue={45} InputProps={{ inputProps: { min: 15, max: 60 } }}
+                        variant="outlined" style={{width: 80}} onChange={handleChangeStepTime}/>
                     </Box>
                     
-                    <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
-                        <Typography variant="h5" style={{marginRight:10}}>Room type</Typography>
+                    <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" style={{marginBottom:10}}>
+                        <Typography variant="h6" >Password</Typography>
                         <FormControl size="small" variant="outlined" style={{ marginLeft: 10 }}>
-                            <Select native value={isPublic} onChange={handleChangecbb}>
-                                <option value={true}>Public</option>
-                                <option value={false}>Private</option>
+                            <Select native value={isPublic} onChange={handleChangecbb} style={{width: 80}}>
+                                <option value={true}>No</option>
+                                <option value={false}>Yes</option>
                             </Select>
                         </FormControl>
                     </Box>
                     
                     {!isPublic?
                     <TextField
+
                         autoFocus
                         id="name"
-                        label="Password"
+                        placeholder='Enter password'
                         value={pass}
                         onChange={handleChange}
                         type="password"

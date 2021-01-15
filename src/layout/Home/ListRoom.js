@@ -45,7 +45,7 @@ export default function StickyHeadTable() {
   const history = useHistory();
 
   const handleJoinGame = (roomId) => {
-    socket.emit('join-game', roomId, user, (error) => {
+    socket.emit('join-game', roomId, user, '', (error) => {
       console.log('join-game ' + roomId);
       if(error) {
         alert(error);
@@ -75,21 +75,22 @@ export default function StickyHeadTable() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-                <TableCell width="10%" align="center" />
-                <TableCell width="20%" align="center">RoomId</TableCell>
-                <TableCell width="25%" align="center">Player 1</TableCell>
-                <TableCell width="25%" align="center">Player 2</TableCell>
-                <TableCell width="20%" align="center">Action</TableCell>
+                <TableCell width="20%" align="center" style={{fontWeight: 'bold'}}>RoomId</TableCell>
+                <TableCell width="30%" align="center" style={{fontWeight: 'bold'}}>Player 1</TableCell>
+                <TableCell width="25%" align="center" style={{fontWeight: 'bold'}}>Player 2</TableCell>
+                <TableCell width="20%" align="center" style={{fontWeight: 'bold'}}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rooms && rooms.length > 0 ? rooms.map((room, index) => (
                 <TableRow key={index}>
+
                     <TableCell align="center">
-                      {room.isLock ? <LockOutlinedIcon color="secondary"/> : <LockOpenOutlinedIcon color="primary"/>}
-                    </TableCell>
-                    <TableCell align="center">
-                        <Typography>{room.roomId}</Typography>
+                      <div style={{display:'flex', marginLeft: "40px"}}>
+                        <Typography style={{marginRight: "20px"}}>{room.roomId}</Typography>
+                        {room.isLock ? <LockOutlinedIcon color="secondary"/> : <></>}
+                      </div>
+
                     </TableCell>
                     <TableCell align="center">
                         <Typography>{room.player1}</Typography>

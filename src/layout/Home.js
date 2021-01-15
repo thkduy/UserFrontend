@@ -37,11 +37,6 @@ export default function Home() {
     setRoomId(event.target.value)
   }
 
-  const handleCreateNewGame = () => {
-    socket.emit('create-game', user);
-
-  }
-
   useEffect(() => {
     socket.on('new-game-id', (roomId) =>{
       console.log('new-game-id' + roomId);
@@ -54,7 +49,7 @@ export default function Home() {
   }, []);
 
   const handleJoinGame = () => {
-    socket.emit('join-game', roomId, user, (error) => {
+    socket.emit('join-game', roomId, user, '', (error) => {
       console.log('join-game ' + roomId);
       if(error) {
         alert(error);
@@ -70,9 +65,9 @@ export default function Home() {
     <Container maxWidth="lg">
       <Box display="flex" flexDirection="row" justifyContent="space-between" style={{ marginBottom: 20 }}>
         <Box display="flex">
-          <Button variant="contained" color="secondary" onClick={handleCreateNewGame}>
-            New game
-          </Button>
+          {/*<Button variant="contained" color="secondary" onClick={handleCreateNewGame}>*/}
+          {/*  New game*/}
+          {/*</Button>*/}
           <ButtonDialogNewGame />
           <ButtonDialogPlayNow />
         </Box>
@@ -84,11 +79,11 @@ export default function Home() {
           </Button>
         </Box>
       </Box>
-      <Grid container spacing={1}>
-        <Grid item xs={9}>
+      <Grid container spacing={10}>
+        <Grid item xs={8}>
           <ListRoom />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <ListUsers />
         </Grid>
       </Grid>
