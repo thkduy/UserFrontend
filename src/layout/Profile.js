@@ -9,6 +9,7 @@ import {
 import jwt from "jsonwebtoken";
 import { makeStyles } from '@material-ui/core/styles';
 import authUserContext from '../context/AuthUserContext';
+import { getInfo } from '../api';
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -30,21 +31,35 @@ const useStyles = makeStyles((theme) => ({
 export default function Profile() {
     const classes = useStyles();
     const { 
-        token
+        token,
+        checkAuthenticated,
+        signIn,
+        setNewToken
     } = useContext(authUserContext);
     const [user, setUser] = useState(null);
     const [rank, setRank] = useState('');
 
     useEffect(() => {
-        async function getData(){
-            const data = await jwt.decode(token);
-            if (data.point < 500) setRank('ForFun ✌');
-            else if (data.point >= 500 && data.point < 1000) setRank('Gold ✨');
-            else if (data.point < 1500 && data.point >= 500) setRank('Platinum 🌟');
-            else setRank('Master 💎');
-            setUser(data); 
+        async function fetchData(){
+            const response = await getInfo(token, id);
+            const res = await response.json();
+            if (response.ok) {
+                const data = res.data;
+                if (data.point < 500) setRank('ForFun ✌');
+                else if (data.point >= 500 && data.point < 1000) setRank('Gold ✨');
+                else if (data.point < 1500 && data.point >= 500) setRank('Platinum 🌟');
+                else setRank('Master 💎');
+                setUser(data);
+            } else if(response.status === 401){
+                checkAuthenticated(false);
+                signIn([]);
+                setNewToken("");
+                localStorage.removeItem("user");
+                localStorage.removeItem("isAuthenticated");
+                localStorage.removeItem("token");
+            }
         }
-        getData();
+        fetchData();
     }, [token]);
     return (
         <>
