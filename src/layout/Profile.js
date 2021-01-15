@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile() {
     const classes = useStyles();
-    const { 
+    const {
         token,
         checkAuthenticated,
         signIn,
@@ -41,6 +41,8 @@ export default function Profile() {
 
     useEffect(() => {
         async function fetchData(){
+            const infoUser = await jwt.decode(token);
+            const id = infoUser._id;
             const response = await getInfo(token, id);
             const res = await response.json();
             if (response.ok) {
